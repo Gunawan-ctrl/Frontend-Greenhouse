@@ -110,6 +110,8 @@ export default {
           // console.log(res)
           this.data = res.data.data
           console.log(this.data)
+
+          // GET TANAMAN AGAR YANG DI CREATE DI SET TANAMAN BUKAN ID MELAINKAN NAMANYA
         })
     },
     hapussetTanaman (GUID) {
