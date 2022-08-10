@@ -1,13 +1,13 @@
 <template>
   <q-layout>
     <q-page-container>
-      <q-page padding class="row items-center justify-center bg-grey">
+      <q-page padding class="row items-center justify-center bg-grey-5">
         <div class="row full-width">
           <div class="col-md-8 offset-md-2 col-xs-12 q-pa-md">
             <q-item>
               <q-item-section class="text-center q-mb-xs">
                 <q-item-label style="font-family:customfont;" class="text-h4 text-teal-10 text-bold">Green House UBL</q-item-label>
-                <q-item-label caption class="text-h4 text-teal-10">Halaman Login Green House</q-item-label>
+                <q-item-label caption class="text-white">Halaman Login Green House</q-item-label>
               </q-item-section>
             </q-item>
             <q-card class="row">
@@ -18,11 +18,24 @@
                 <div class="row justify-center q-mt-sm">
                     <div class="col-md-8 q-pa-xs">
                       <q-form
-                      @submit="login">
+                      @submit="onSubmit">
                         <div class="text-h6 text-teal-10 text-center">Login Account</div>
                           <q-input
-                            label="EMAIL" color="teal" v-model="EMAIL"/>
-                          <q-input type="PASSWORD" label="PASSWORD" color="teal" v-model="PASSWORD"/>
+                            label="EMAIL"
+                            color="teal"
+                            v-model="form.EMAIL"
+                            :rules="[ val => val && val.length > 0 || 'silahkan masukkan email anda']"/>
+                          <q-input
+                            type="password"
+                            label="PASSWORD"
+                            color="teal"
+                            v-model="form.PASSWORD"
+                            :rules="[ val => val && val.length > 0 || 'silahkan masukkan password anda']"
+                            >
+                            <template v-slot:append>
+                            </template>
+                          </q-input>
+
                           <div class="q-mt-lg">
                             <q-btn class="full-width" unelevated color="teal" label="Login" rounded type="submit"/>
                             <q-btn class="full-width q-mt-md" flat unelevated color="teal" label="Registrasi" rounded :to="{ name: 'register' }"/>
@@ -44,49 +57,38 @@ import { api } from 'src/boot/axios'
 export default {
   data () {
     return {
-      EMAIL: null,
-      PASSWORD: null
+      form: {
+        EMAIL: null,
+        PASSWORD: null
+      }
     }
   },
   methods: {
-    async login () {
-      try {
-        // START CONTOH KAK BRAM
-
-        api.post('users/login', {
-          EMAIL: this.EMAIL,
-          PASSWORD: this.PASSWORD
-        }).then((res) => {
-          if (res.data.data.user.ROLE === 'user') {
-            console.log('user')
-          } else if (res.data.data.user.ROLE === 'admin') {
-            console.log('admin')
-          } else {
-            this.$notify({ message: 'access denied', color: 'negative' })
-            console.log('access denied')
-          }
-
-          // END CONTOH KAK BRAM
-
-          // if (res.data.data.user.ROLE === 'user') {
-          //   this.$router.push({ name: 'dashboardUser' })
-          // if (res.data.data.user.ROLE === 1) {
-          //   this.$router.push({ name: 'dashboardUser' })
-          // } else {
-          //   this.$router.push({ name: 'data' })
-          // }
-          // } else {
-          //   this.$q.notify({ message: res.data.message, color: 'negative' })
-          // }
-        })
-        // const response = await api.post('users/login', {
-        //   EMAIL: this.EMAIL,
-        //   PASSWORD: this.PASSWORD
-        // })
-        // console.log(response.data)
-      } catch (e) {
-        console.log(e)
-      }
+    onSubmit () {
+      api.post('/users/login', {
+        EMAIL: this.form.EMAIL,
+        PASSWORD: this.form.PASSWORD
+      }).then((res) => {
+        // console.log(res)
+        if (res.data.data.user.ROLE === '1') {
+          this.$q.localStorage.set('dataUser', res.data.data)
+          this.$router.push('/')
+          this.$q.notify({
+            message: res.data.message,
+            color: 'positive',
+            icon: 'ion-close'
+          })
+        } else {
+          this.$q.localStorage.set('dataUser', res.data.data)
+          this.$router.push('/dashboardUser')
+          this.$q.notify({
+            message: res.data.message,
+            color: 'green',
+            icon: 'ion-close'
+          })
+        }
+        console.log(res)
+      })
     }
   }
 }

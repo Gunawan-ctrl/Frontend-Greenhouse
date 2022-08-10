@@ -1,57 +1,147 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Basic scroll" color="primary" @click="basic = true" />
-    <q-btn label="Fixed size" color="primary" @click="fixed = true" />
+  <q-page padding>
+    <div class="row q-mb-sm col-gutter-md">
+      <div class="col-md-12 col-xs-12 col-lg-12">
+        <div class="row">
+          <div class="col-auto">
+          </div>
+          <div class="col" style="max-width: fit-content;">
+            <q-banner rounded inline-actions class="text-white bg-teal-10">
+              <div class="text-h6">Input Tanaman</div>
+              <div>Input Tanaman Green House</div>
+            </q-banner>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <q-dialog v-model="basic" transition-show="rotate" transition-hide="rotate">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Terms of Agreement</div>
-        </q-card-section>
+  <div class="q-pa-md" style="max-width: 400px">
+    <q-form
+    class="q-gutter"
+      @submit="onSubmit"
+    >
+      <q-input
+        filled
+        v-model="NAMA_TANAMAN"
+        label="Nama Tanaman"
+        :rules="[ val => val && val.length > 0 || 'silahkan masukkan nama tanaman anda']"
+      />
+      <q-select
+      class="q-mb-md"
+        filled
+        v-model="JENIS_TANAMAN"
+        option-label="JENIS_TANAMAN"
+        :options="optionJenisTanaman"
+        label="Jenis Tanaman"
+      />
+      <!-- <q-input
+        filled
+        v-model="JENIS_TANAMAN"
+        label="Jenis Tanaman"
+        :rules="[ val => val && val.length > 0 || 'silahkan masukkan jenis tanaman anda']"
+      /> -->
+      <q-input
+        filled
+        type="number"
+        v-model="HARGA"
+        label="Harga"
+        :rules="[ val => val > 0 || 'silahkan masukkan harga tanaman anda']"
+      />
+      <q-input
+        filled
+        v-model="DESKRIPSI"
+        label="Deskripsi"
+        :rules="[ val => val && val.length > 0 || 'silahkan masukkan deskripsi tanaman anda']"
+      />
+      <q-input
+        filled
+        type="number"
+        v-model="LUAS_AREA_TANAM"
+        label="Luas Area Tanam"
+        :rules="[ val => val && val.length > 0 || 'silahkan masukkan luas area tanaman anda']"
+      />
+      <div class="q-pa-md q-gutter-sm">
+          <q-btn
+            unelevated
+            icon="add"
+            label="Tambah Tanaman"
+            color="teal-10" type="submit" :disable="loading" />
 
-        <q-card-section class="q-pt-none">
-          <p v-for="n in 15" :key="n">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</p>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="Decline" color="primary" v-close-popup />
-          <q-btn flat label="Accept" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
-    <q-dialog v-model="fixed">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Terms of Agreement</div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section style="max-height: 50vh" class="scroll">
-          <p v-for="n in 15" :key="n">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</p>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-actions align="right">
-          <q-btn flat label="Decline" color="primary" v-close-popup />
-          <q-btn flat label="Accept" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+          <q-btn
+            flat
+            label="Kembali"
+            to="dataTanaman"
+            color="teal-10"/>
+      </div>
+    </q-form>
   </div>
+  </q-page>
 </template>
 
 <script>
-import { ref } from 'vue'
-
+import createToken from 'src/helpers/create_token'
+import { api } from 'src/boot/axios'
 export default {
-  setup () {
+  data () {
     return {
-      basic: ref(false),
-      fixed: ref(false)
+      NAMA_TANAMAN: null,
+      JENIS_TANAMAN: null,
+      HARGA: 0,
+      DESKRIPSI: null,
+      LUAS_AREA_TANAM: null,
+      optionJenisTanaman:
+      [
+        'Bijian',
+        'Merambat',
+        'Serabut',
+        'Akar-akaran'
+      ]
     }
+  },
+  methods: {
+    onSubmit () {
+      api.post('/tanaman/create', {
+        NAMA_TANAMAN: this.NAMA_TANAMAN,
+        JENIS_TANAMAN: this.JENIS_TANAMAN,
+        HARGA: this.HARGA,
+        DESKRIPSI: this.DESKRIPSI,
+        LUAS_AREA_TANAM: this.LUAS_AREA_TANAM
+      }, createToken()).then((res) => {
+        if (res.data.status === true) {
+          // this.$q.localStorage.set('dataTanamanUser', res.data.data)
+          this.$router.push('/dataTanaman')
+          // console.log('push')
+          this.$q.notify({
+            message: res.data.message,
+            color: 'teal-10',
+            icon: 'ion-checkmark'
+          })
+        } else {
+          // this.$q.localStorage.set('dataTanamanUser', res.data.data)
+          this.$q.notify({
+            message: res.data.message,
+            color: 'teal-10',
+            icon: 'ion-close'
+          })
+        }
+      })
+    }
+    // select () {
+    //   api.get('/tanaman', createToken())
+    //     .then((res) => {
+    //       // console.log(res)
+    //       this.data = res.data.data
+    //       this.data = res.data.data
+    //       // this.optionAlat = res.data.data
+    //       // console.log(res.data.data[0])
+    //       // console.log(this.optionTanaman)
+    //     })
+    // }
   }
+  // created () {
+  //   this.select()
+  // }
 }
 </script>
+<style scoped>
+</style>

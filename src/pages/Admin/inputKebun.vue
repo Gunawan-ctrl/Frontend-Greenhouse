@@ -7,8 +7,8 @@
           </div>
           <div class="col" style="max-width: fit-content;">
             <q-banner rounded inline-actions class="text-white bg-teal-10">
-              <div class="text-h6">Input Alat</div>
-              <div>Input Alat Green House</div>
+              <div class="text-h6">Input Kebun</div>
+              <div>Input Kebun Green House</div>
             </q-banner>
           </div>
         </div>
@@ -20,45 +20,32 @@
       @submit="onSubmit"
     >
       <q-input
-      filled
-      v-model="MAC_ADDRESS"
-      label="Mac Address"
-      :rules="[ val => val && val.length > 0 || 'silahkan masukkan mac address anda']"
-      />
-      <!-- <q-input
-      filled
-      v-model="NAMA_ALAT"
-      label="Nama Alat"
-      :rules="[ val => val && val.length > 0 || 'silahkan masukkan nama alat anda']"
-      /> -->
-      <q-select
         filled
-        v-model="DATA_SENSOR"
-        :options="optionSensor"
-        label="Pilih Sensor"
+        v-model="NAMA_KEBUN"
+        label="Nama Kebun"
+        :rules="[ val => val && val.length > 0 || 'silahkan masukkan nama kebun anda']"
       />
       <q-input
-      class="q-mt-md"
-      filled
-      v-model="EMAIL"
-      label="Email"
-      :rules="[ val => val && val.length > 0 || 'silahkan masukkan nama email anda']"
+        filled
+        v-model="LUAS_LAHAN"
+        label="Luas Lahan"
+        :rules="[ val => val && val.length > 0 || 'silahkan masukkan luas lahan kebun anda']"
       />
-        <div class="q-pa-md q-gutter-sm">
+      <div class="q-pa-md q-gutter-sm">
           <q-btn
             unelevated
             icon="add"
-            label="Tambah Alat"
+            label="Tambah Kebun"
             color="teal-10" type="submit" :disable="loading" />
 
           <q-btn
             flat
             label="Kembali"
-            to="dataAlat"
+            to="dataKebun"
             color="teal-10"/>
         </div>
-      </q-form>
-    </div>
+    </q-form>
+  </div>
   </q-page>
 </template>
 
@@ -68,30 +55,18 @@ import { api } from 'src/boot/axios'
 export default {
   data () {
     return {
-      MAC_ADDRESS: null,
-      // NAMA_ALAT: null,
-      EMAIL: null,
-      DATA_SENSOR: null,
-      optionSensor: [
-        'Sensor Suhu',
-        'Sensor Soil',
-        'Sensor Cahaya',
-        'Sensor Ketingian air'
-      ]
+      NAMA_KEBUN: null,
+      LUAS_LAHAN: null
     }
   },
   methods: {
     onSubmit () {
-      api.post('/alat/create', {
-        MAC_ADDRESS: this.MAC_ADDRESS,
-        // NAMA_ALAT: this.NAMA_ALAT,
-        DATA_SENSOR: this.DATA_SENSOR,
-        EMAIL: this.EMAIL
+      api.post('/kebun/create', {
+        NAMA_KEBUN: this.NAMA_KEBUN,
+        LUAS_LAHAN: this.LUAS_LAHAN
       }, createToken()).then((res) => {
-        console.log(res)
         if (res.data.status === true) {
-          // this.$q.localStorage.set('dataAlat', res.data.data)
-          this.$router.push('/dataAlat')
+          this.$router.push('/dataKebun')
           // console.log('push')
           this.$q.notify({
             message: res.data.message,
@@ -111,5 +86,10 @@ export default {
   }
 }
 </script>
+.col {
+  width: 4px;
+  height: 100%;
+  background-color: green;
+}
 <style scoped>
 </style>

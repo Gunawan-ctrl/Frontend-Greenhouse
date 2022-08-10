@@ -26,11 +26,15 @@
       "stores/*": [
         "src/stores/*"
       ],
+      "jsx": [
+        "preserve"
+      ],
       "vue$": [
         "node_modules/vue/dist/vue.runtime.esm-bundler.js"
-      ]
+      ],
     }
   },
+
   "exclude": [
     "dist",
     ".quasar",

@@ -3,63 +3,62 @@
     <div class="row q-mb-md col-gutter-md">
       <div class="col-md-12 col-xs-12 col-lg-12">
         <div class="row">
-          <div class="col-auto">
-            <div class="left"></div>
-          </div>
-          <div class="col" style="max-width: fit-content">
-            <q-banner rounded inline-actions class="text-blue-grey-14">
-              <div class="text-h6">Daftar Kebun User</div>
-              <div>Daftar semua kebun  User Green House</div>
-            </q-banner>
-          </div>
+        <div class="col-auto">
+        </div>
+        <div class="col" style="max-width: fit-content">
+          <q-banner rounded inline-actions class="text-white bg-teal-10">
+          <div class="text-h6">Data Kebun</div>
+          <div>Daftar Kebun Green House </div>
+          </q-banner>
+        </div>
         </div>
       </div>
     </div>
     <q-card flat>
       <q-table
-        :rows="rows"
+        :rows="data"
         :columns="columns"
         row-key="name"
+        :filter="filter"
+        :loading="loading"
       >
+      <template v-slot:top>
+        <q-btn color="teal-10" :disable="loading" label="Tambah Kebun" :to="{name:'inputKebun'}" />
+        <q-space />
+        <q-input color="teal-10" v-model="filter" placeholder="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
         <template v-slot:body="props">
           <q-tr :props="props">
-            <q-td key="name" :props="props">
-              {{ props.row.name }}
+            <q-td key="NAMA_KEBUN" :props="props">
+              {{ props.row.NAMA_KEBUN }}
             </q-td>
-            <q-td key="calories" :props="props">
-              <q-badge color="green">
-                {{ props.row.calories }}
-              </q-badge>
+            <q-td key="LUAS_LAHAN" :props="props">
+              {{ props.row.LUAS_LAHAN }}
             </q-td>
-            <q-td key="fat" :props="props">
-              <q-badge color="purple">
-                {{ props.row.fat }}
-              </q-badge>
-            </q-td>
-            <q-td key="carbs" :props="props">
-              <q-badge color="orange">
-                {{ props.row.carbs }}
-              </q-badge>
-            </q-td>
-            <q-td key="protein" :props="props">
-              <q-badge color="primary">
-                {{ props.row.protein }}
-              </q-badge>
-            </q-td>
-            <q-td key="sodium" :props="props">
-              <q-badge color="teal">
-                {{ props.row.sodium }}
-              </q-badge>
-            </q-td>
-            <q-td key="calcium" :props="props">
-              <q-badge color="accent">
-                {{ props.row.calcium }}
-              </q-badge>
-            </q-td>
-            <q-td key="iron" :props="props">
-              <q-badge color="amber">
-                {{ props.row.iron }}
-              </q-badge>
+            <q-td key="action" :props="props">
+              <div class="justify-center q-gutter-x-xs">
+                <q-btn
+                  color="teal"
+                  dense
+                  size="sm"
+                  @click="edit(props.row.GUID)"
+                  class="q-px-xs"
+                  icon="edit"
+                  label="Edit"
+                />
+                <q-btn
+                  color="red"
+                  dense
+                  size="sm"
+                  @click="hapusKebun(props.row.GUID)"
+                  class="q-px-xs"
+                  icon="delete"
+                  label="Hapus"></q-btn>
+              </div>
             </q-td>
           </q-tr>
         </template>
@@ -69,137 +68,55 @@
 </template>
 
 <script>
-const columns = [
-  {
-    name: 'name',
-    required: true,
-    label: 'No',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
-  },
-  { name: 'calories', align: 'center', label: 'Nama Kebun', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Luas lahan', field: 'fat', sortable: true }
-]
-
-const rows = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
-  },
-  {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%'
-  },
-  {
-    name: 'Eclair',
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%',
-    iron: '7%'
-  },
-  {
-    name: 'Cupcake',
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: '3%',
-    iron: '8%'
-  },
-  {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%',
-    iron: '16%'
-  },
-  {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%',
-    iron: '0%'
-  },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%',
-    iron: '2%'
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%',
-    iron: '45%'
-  },
-  {
-    name: 'Donut',
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%',
-    iron: '22%'
-  },
-  {
-    name: 'KitKat',
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%',
-    iron: '6%'
-  }
-]
-
+import createToken from 'src/helpers/create_token'
+import { api } from 'src/boot/axios'
 export default {
-  setup () {
+  data () {
     return {
-      columns,
-      rows
+      loading: false,
+      filter: '',
+      rowCount: 10,
+      urlGambar: null,
+      columns: [
+        {
+          name: 'NAMA_KEBUN',
+          required: true,
+          label: 'Nama Kebun',
+          align: 'left',
+          field: row => row.NAMA_KEBUN,
+          format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'LUAS_LAHAN', align: 'center', label: 'Luas Lahan', field: 'LUAS_LAHAN', sortable: true },
+        { name: 'action', label: 'Action', field: 'action', sortable: true }
+      ],
+      data: []
     }
+  },
+  methods: {
+    getDataKebun () {
+      api.get('kebun', createToken())
+        .then((res) => {
+          // console.log(res.data.data)
+          this.data = res.data.data
+        })
+    },
+    hapusKebun (GUID) {
+      api.delete('kebun/' + GUID, createToken())
+        .then((res) => {
+          this.data = res.data.data
+          this.getDataKebun()
+        })
+    },
+    edit (GUID) {
+      this.$router.push('/editKebun/' + GUID)
+    }
+  },
+  mounted () {
+    this.getDataKebun()
   }
 }
 
 </script>
 <style scoped>
-.left {
-  width: 4px;
-  height: 100%;
-  background-color: green;
-}
 </style>

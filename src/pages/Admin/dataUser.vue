@@ -7,7 +7,7 @@
             <div class="left"></div>
           </div>
           <div class="col" style="max-width: fit-content">
-            <q-banner rounded inline-actions class="text-blue-grey-14">
+            <q-banner rounded inline-actions class="text-white bg-teal-10">
               <div class="text-h6">Data User</div>
               <div>Data User Green House</div>
             </q-banner>
@@ -17,49 +17,44 @@
     </div>
     <q-card flat>
       <q-table
-        :rows="rows"
+        :rows="data"
         :columns="columns"
         row-key="name"
       >
         <template v-slot:body="props">
           <q-tr :props="props">
-            <q-td key="name" :props="props">
-              {{ props.row.name }}
-            </q-td>
-            <q-td key="calories" :props="props">
+            <q-td key="USERNAME" :props="props">
               <q-badge color="green">
-                {{ props.row.calories }}
+              {{ props.row.USERNAME }}
               </q-badge>
             </q-td>
-            <q-td key="fat" :props="props">
-              <q-badge color="purple">
-                {{ props.row.fat }}
+            <q-td key="EMAIL" :props="props">
+              <q-badge color="green">
+                {{ props.row.EMAIL }}
               </q-badge>
             </q-td>
-            <q-td key="carbs" :props="props">
+            <q-td key="NO_TELPON" :props="props">
               <q-badge color="orange">
-                {{ props.row.carbs }}
+                {{ props.row.NO_TELPON }}
               </q-badge>
             </q-td>
-            <q-td key="protein" :props="props">
-              <q-badge color="primary">
-                {{ props.row.protein }}
-              </q-badge>
-            </q-td>
-            <q-td key="sodium" :props="props">
-              <q-badge color="teal">
-                {{ props.row.sodium }}
-              </q-badge>
-            </q-td>
-            <q-td key="calcium" :props="props">
-              <q-badge color="accent">
-                {{ props.row.calcium }}
-              </q-badge>
-            </q-td>
-            <q-td key="iron" :props="props">
-              <q-badge color="amber">
-                {{ props.row.iron }}
-              </q-badge>
+            <q-td key="action" :props="props">
+          <div class="justify-center q-gutter-x-xs">
+            <q-btn color="teal"
+              dense size="sm"
+              class="q-px-xs"
+              icon="edit"
+              @click="edit(props.row.GUID)"
+              label="Edit"></q-btn>
+            <q-btn
+              color="red"
+              dense
+              size="sm"
+              @click="hapusUser(props.row.GUID)"
+              class="q-px-xs"
+              icon="delete"
+              label="Hapus"></q-btn>
+            </div>
             </q-td>
           </q-tr>
         </template>
@@ -69,48 +64,62 @@
 </template>
 
 <script>
-const columns = [
-  {
-    name: 'name',
-    required: true,
-    label: 'No',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
-  },
-  { name: 'username', align: 'center', label: 'username', field: 'username', sortable: true },
-  { name: 'email', label: 'email', field: 'email', sortable: true },
-  { name: 'no.tlp', label: 'no.tlp', field: 'no.tlp', sortable: true }
-]
-
-const rows = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
-  }
-]
+import { api } from 'src/boot/axios'
+import createToken from 'src/helpers/create_token'
 
 export default {
   data () {
     return {
-      columns,
-      rows
+      loading: false,
+      filter: '',
+      rowCount: 10,
+      urlGambar: null,
+      columns: [
+        {
+          name: 'USERNAME',
+          required: true,
+          label: 'Username',
+          align: 'left',
+          field: row => row.USERNAME,
+          format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'EMAIL', align: 'center', label: 'Email', field: 'EMAIL', sortable: true },
+        { name: 'NO_TELPON', align: 'center', label: 'No Telpon', field: 'NO_TELPON', sortable: true },
+        { name: 'action', label: 'Action', field: 'action', sortable: true }
+      ],
+      data: []
     }
+  },
+  created () {
+    this.dataUser()
+  },
+  methods: {
+    dataUser () {
+      api.get('/users/get-role-user', createToken())
+        .then((res) => {
+          // console.log(res.data)
+          this.data = res.data.data
+        })
+    }
+    // hapusUser (GUID) {
+    //   api.delete('user/' + GUID, createToken())
+    //     .then((res) => {
+    //       if (res.data.status === true) {
+    //         this.$q.notify({
+    //           message: 'berhasil menghapus data',
+    //           color: 'positive',
+    //           icon: 'ion-close'
+    //         })
+    //       }
+    //       this.dataUser()
+    //     })
+    // },
+    // edit (GUID) {
+    //   this.$router.push('/editUser/' + GUID)
+    // }
   }
 }
-
 </script>
-<style scoped>
-.left {
-  width: 4px;
-  height: 100%;
-  background-color: green;
-}
+<style>
 </style>

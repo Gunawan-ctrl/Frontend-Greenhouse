@@ -19,7 +19,7 @@
           <q-menu touch-position>
           <q-list style="min-width: 100px">
             <q-item clickable v-close-popup>
-              <q-item-section>Profile</q-item-section>
+          <q-item-section>{{ dataUser.user.USERNAME }} </q-item-section>
             </q-item>
             <q-item clickable v-close-popup :to="{name: 'login'}">
               <q-item-section>Logout</q-item-section>
@@ -45,7 +45,7 @@
             <q-avatar size="80px" class="q-mb-xs">
               <img src="~assets/profile-man.jpg">
             </q-avatar>
-            <div class="text-weight-bold text-orange text-subtitle1 q-mt-xs">Admin</div>
+            <div class="text-weight-bold text-orange text-subtitle1 q-mt-xs">{{ dataUser.user.USERNAME }}</div>
             <div class="q-mb-xs">Green House Aplication</div>
           </div>
         </q-img>
@@ -63,16 +63,6 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable active-class="active" v-ripple :to="{ name:'dataAlat' }">
-            <q-item-section avatar>
-              <q-icon name="construction">
-              </q-icon>
-            </q-item-section>
-            <q-item-section class="text-weight-bold">
-              Data Alat
-            </q-item-section>
-          </q-item>
-
           <q-item clickable active-class="active" v-ripple :to="{ name:'dataTanaman' }">
             <q-item-section avatar>
               <q-icon name="grass">
@@ -83,12 +73,31 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable active-class="active" v-ripple exact :to="{ name:'dataKebun' }">
+          <q-item clickable active-class="active" v-ripple :to="{ name:'dataAlat' }">
+            <q-item-section avatar>
+              <q-icon name="construction">
+              </q-icon>
+            </q-item-section>
+            <q-item-section class="text-weight-bold">
+              Data Alat
+            </q-item-section>
+          </q-item>
+
+          <!-- <q-item clickable active-class="active" v-ripple exact :to="{ name:'dataKebun' }">
             <q-item-section avatar>
               <q-icon name="local_florist" />
             </q-item-section>
             <q-item-section class="text-weight-bold">
               <q-item-label>Data Kebun</q-item-label>
+            </q-item-section>
+          </q-item> -->
+
+          <q-item clickable active-class="active" v-ripple exact :to="{ name:'setTanaman' }">
+            <q-item-section avatar>
+              <q-icon name="spa" />
+            </q-item-section>
+            <q-item-section class="text-weight-bold">
+              <q-item-label>Set Tanaman</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -101,7 +110,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable active-class="active" v-ripple exact :to="{ name:'logout' }">
+          <q-item @click="logout" clickable active-class="active" v-ripple exact>
             <q-item-section avatar>
               <q-icon name="logout" />
             </q-item-section>
@@ -125,7 +134,14 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: false,
+      dataUser: this.$q.localStorage.getItem('dataUser')
+    }
+  },
+  methods: {
+    logout () {
+      this.$q.localStorage.clear()
+      this.$router.push('/login')
     }
   }
 }
