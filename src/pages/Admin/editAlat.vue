@@ -45,7 +45,16 @@
       />
 
       <div>
-        <q-btn label="Ubah Data Alat" icon="add" type="submit" color="teal-10"/>
+        <q-btn
+        label="Ubah Data Alat"
+        icon="add"
+        type="submit"
+        color="teal-10"/>
+        <q-btn
+        flat
+        label="Kembali"
+        :to="{ name:'dataAlat' }"
+        color="teal-10" />
         </div>
     </q-form>
       </div>

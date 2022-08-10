@@ -75,8 +75,8 @@ export default {
           this.$router.push('/')
           this.$q.notify({
             message: res.data.message,
-            color: 'positive',
-            icon: 'ion-close'
+            color: 'teal-10',
+            icon: 'ion-checkmark'
           })
         } else {
           this.$q.localStorage.set('dataUser', res.data.data)
@@ -87,7 +87,7 @@ export default {
             icon: 'ion-close'
           })
         }
-        console.log(res)
+        // console.log(res)
       })
     }
   }

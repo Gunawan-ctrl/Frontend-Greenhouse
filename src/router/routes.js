@@ -14,6 +14,7 @@ const routes = [
       { path: '/dataKebun', name: 'dataKebun', component: () => import('pages/Admin/dataKebun.vue') },
       { path: '/dataUser', name: 'dataUser', component: () => import('pages/Admin/dataUser.vue') },
       { path: '/setTanaman', name: 'setTanaman', component: () => import('pages/Admin/setTanaman.vue') },
+      { path: '/editsetTanaman/:guid', name: 'editsetTanaman', component: () => import('pages/Admin/editsetTanaman.vue') },
       { path: '/inputsetTanaman', name: 'inputsetTanaman', component: () => import('pages/Admin/inputsetTanaman.vue') },
       { path: '/InputDataAlat', name: 'InputDataAlat', component: () => import('pages/Admin/InputDataAlat.vue') },
       { path: '/InputDataTanaman', name: 'InputDataTanaman', component: () => import('pages/Admin/InputDataTanaman.vue') },

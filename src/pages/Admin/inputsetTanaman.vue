@@ -23,7 +23,7 @@
     <!-- <q-expansion-item> -->
       <q-select
         filled
-        key="ID_TANAMAN"
+        key="NAMA_TANAMAN"
         v-model="tanaman"
         option-label="NAMA_TANAMAN"
         :options="optionTanaman"
@@ -32,29 +32,37 @@
         <template v-slot:option="scope">
           <q-item v-bind="scope.itemProps">
             <q-item-section>
-              <q-item-label>{{ scope.opt.NAMA_TANAMAN }}</q-item-label>
-              <q-item-label caption>{{ scope.opt.GUID }}</q-item-label>
+              <q-item-label caption>{{ scope.opt.NAMA_TANAMAN }}</q-item-label>
+              <q-item-label>{{ scope.opt.GUID }}</q-item-label>
             </q-item-section>
           </q-item>
         </template>
       </q-select>
       <!-- </q-expansion-item> -->
       <q-select
-        key="ID_ALAT"
         filled
-        v-model="ID_ALAT"
+        key="ID_ALAT"
+        v-model="alat"
+        option-label="DATA_SENSOR"
         :options="optionAlat"
-        label="Data Alat"
-      />
+        label="Data Sensor"
+      >
+      <template v-slot:option="scope">
+        <q-item v-bind="scope.itemProps">
+          <q-item-section>
+            <q-item-label>{{ scope.opt.DATA_SENSOR }}</q-item-label>
+            <q-item-label caption>{{ scope.opt.GUID }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </template>
+      </q-select>
       <q-input
-        key="SUHU_MINIMAL"
         filled
         type="number"
         v-model="SUHU_MINIMAL"
         label="Suhu Minimal"
       />
       <q-input
-        key="SUHU_MAX"
         filled
         class="q-mt-md"
         type="number"
@@ -90,23 +98,22 @@ export default {
       SUHU_MAX: null,
       optionTanaman: [],
       optionAlat: [],
-      tanaman: null
+      tanaman: null,
+      alat: null
     }
   },
   methods: {
     onSubmit () {
       api.post('tanam/create', {
         ID_TANAMAN: this.tanaman.GUID,
-        ID_ALAT: this.ID_ALAT,
-        // DATA_SENSOR: this.DATA_SENSOR,
+        ID_ALAT: this.alat.GUID,
         SUHU_MINIMAL: this.SUHU_MINIMAL,
         SUHU_MAX: this.SUHU_MAX
       }, createToken())
         .then((res) => {
-          // console.log(res)
+          console.log(res)
           if (res.data.status === true) {
             this.$router.push('/setTanaman')
-            // console.log('push')
             this.$q.notify({
               message: res.data.message,
               color: 'teal-10',
@@ -127,6 +134,7 @@ export default {
     select () {
       api.get('tanaman/', createToken())
         .then((res) => {
+          console.log(res)
           if (res.data.status) {
             this.optionTanaman = res.data.data
           }
@@ -142,28 +150,16 @@ export default {
     selectAlat () {
       api.get('alat/', createToken())
         .then((res) => {
-          // console.log(res)
-          for (let i = 0; i < res.data.data.length; i++) {
-            this.optionAlat.push(res.data.data[i].DATA_SENSOR)
+          if (res.data.status) {
+            this.optionAlat = res.data.data
+            // console.log(this.optionAlat)
           }
         })
     }
-    // getTanam () {
-    //   api.get('tanam/', createToken())
-    //     .then((res) => {
-    //       console.log(res)
-    //       SUHU_MINIMAL: this.SUHU_MINIMAL
-    //       for (let i = 0; i < res.data.data.length; i++) {
-    //         this.SUHU_MINIMAL.push(res.data.data[i].SUHU_MINIMAL)
-    //         this.SUHU_MAX.push(res.data.data[i].SUHU_MAX)
-    //       }
-    //     })
-    // }
   },
   created () {
     this.select()
     this.selectAlat()
-    // this.getTanam()
   }
 }
 </script>

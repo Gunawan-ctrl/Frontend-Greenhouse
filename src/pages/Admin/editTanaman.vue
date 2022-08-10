@@ -72,9 +72,31 @@
         val => val !== null && val !== '' || 'Silahkan masukkan luas area tanaman anda'
         ]"
       />
-      <div>
-        <q-btn label="Ubah Data Tanaman" icon="add" type="submit" color="teal-10"/>
+      <div class="q-pa-md q-gutter-sm">
+          <q-btn
+            unelevated
+            icon="add"
+            label="Tambah Tanaman"
+            color="teal-10" type="submit" :disable="loading" />
+
+          <q-btn
+            flat
+            label="Kembali"
+            :to="{ name:'dataTanaman' }"
+            color="teal-10" />
       </div>
+      <!-- <div>
+        <q-btn
+        label="Ubah Data Tanaman"
+        icon="add"
+        type="submit"
+        color="teal-10"/>
+        <q-btn
+        flat
+        label="Kembali"
+        to="dataTanaman"
+        color="teal-10"/>
+      </div> -->
     </q-form>
     </div>
   </q-page>
@@ -130,7 +152,7 @@ export default {
     dataTanaman () {
       api.get(`tanaman/${this.$route.params.guid}`, createToken())
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.NAMA_TANAMAN = res.data.data.NAMA_TANAMAN
           this.JENIS_TANAMAN = res.data.data.JENIS_TANAMAN
           this.HARGA = res.data.data.HARGA

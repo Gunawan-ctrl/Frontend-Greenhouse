@@ -32,7 +32,7 @@
                     :rules="[ val => val && val.length > 0 || 'Lengkapin data username nya']"
                 >
                     <template v-slot:prepend>
-                    <q-icon name="person" class="text-green-13" />
+                    <q-icon name="person" class="lime" />
                     </template>
                 </q-input>
 
@@ -44,7 +44,7 @@
                     :rules="[ val => val && val.length > 0 || 'Lengkapin data email nya']"
                 >
                     <template v-slot:prepend>
-                    <q-icon name="mail" class="text-green-13" />
+                    <q-icon name="mail" class="lime" />
                     </template>
                 </q-input>
 
@@ -57,7 +57,7 @@
                   :rules="[ val => val && val.length > 0 || 'Lengkapin data no telp nya']"
                 >
                   <template v-slot:prepend>
-                  <q-icon name="mail" class="text-green-13" />
+                  <q-icon name="mail" class="lime" />
                   </template>
                 </q-input>
 
@@ -72,12 +72,12 @@
                 <template v-slot:append>
                 <q-icon
                   :name="isPwd ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
+                  class="lime"
                   @click="isPwd = !isPwd"
                 />
                 </template>
                 <template v-slot:prepend>
-                <q-icon name="lock" class="text-green-13" />
+                <q-icon name="lock"/>
                 </template>
               </q-input>
 

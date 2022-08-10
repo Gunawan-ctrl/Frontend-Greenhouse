@@ -39,33 +39,13 @@
         <q-td key="ID_ALAT" :props="props">{{ props.row.ID_ALAT }}</q-td>
         <!-- <q-td key="DATA_SENSOR" :props="props">{{ props.row.DATA_SENSOR }}</q-td> -->
         <!-- <q-td key="NAMA_ALAT" :props="props">{{ props.row.NAMA_ALAT }}</q-td> -->
-      <q-td key="SUHU_MAX" :props="props">{{ props.row.SUHU_MAX }}</q-td>
         <q-td key="SUHU_MINIMAL" :props="props">{{ props.row.SUHU_MINIMAL }}</q-td>
+        <q-td key="SUHU_MAX" :props="props">{{ props.row.SUHU_MAX }}</q-td>
         <q-td key="SET" :props="props">
           <div class="justify-center q-gutter-x-xs">
-            <!-- <q-toggle v-model="model" :val="scope.opt.value" /> -->
-            <q-toggle
-            color="teal-10"
-            label="Start"
-            v-model="model"
-            val="teal-10"
-            icon="home"
-            />
-            <!-- <template v-slot:option="scope">
-              <q-item v-bind="scope.itemProps">
-                <q-item-section>
-                  <q-item-label>{{ scope.opt.ID_TANAMAN }}</q-item-label>
-                  <q-item-label caption>{{ scope.opt.ID_ALAT }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </template> -->
-            <!-- </q-toggle> -->
-            <div>
-              {{model}}
-            </div>
-            <!-- <template>
-        <q-toggle v-model="scope.selected" />
-      </template> -->
+            <q-td auto-width>
+            <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
+          </q-td>
           </div>
         </q-td>
         <q-td key="action" :props="props">
@@ -74,7 +54,7 @@
               color="red"
               dense
               size="sm"
-              @click="hapusTanaman(props.row.GUID)"
+              @click="hapussetTanaman(props.row.GUID)"
               class="q-px-xs"
               icon="delete"
               label="Hapus"></q-btn>
@@ -96,18 +76,7 @@ import createToken from 'src/helpers/create_token'
 export default {
   data () {
     return {
-
-      // selected: ref([]),
-      model: [
-        'stop',
-        'start'
-      ],
-      // selection: ref(
-      //   [
-      //     'stop',
-      //     'start'
-      //   ]
-      // ),
+      model: null,
       loading: false,
       filter: '',
       rowCount: 10,
@@ -122,9 +91,6 @@ export default {
           sortable: true
         },
         { name: 'ID_ALAT', align: 'left', label: 'Sensor', field: 'ID_ALAT', sortable: true },
-        // { name: 'NAMA_ALAT', align: 'left', label: 'NAMA ALAT', field: 'NAMA_ALAT', sortable: true },
-        // { name: 'NAMA_TANAMAN', align: 'left', label: 'NAMA TANAMAN', field: 'NAMA_TANAMAN', sortable: true },
-        // { name: 'DATA_SENSOR', align: 'left', label: 'Data Sensor', field: 'DATA_SENSOR', sortable: true },
         { name: 'SUHU_MINIMAL', align: 'left', label: 'Suhu Minimal', field: 'SUHU_MINIMAL', sortable: true },
         { name: 'SUHU_MAX', align: 'left', label: 'Suhu Maksimal', field: 'SUHU_MAX' },
         { name: 'SET', align: 'center', label: 'SET', field: 'SET', sortable: true },
@@ -141,14 +107,15 @@ export default {
     datasetTanaman () {
       api.get('/tanam', createToken())
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.data = res.data.data
-          // console.log(this.data)
+          console.log(this.data)
         })
     },
     hapussetTanaman (GUID) {
       api.delete('tanam/' + GUID, createToken())
         .then((res) => {
+          console.log(res)
           if (res.data.status === true) {
             this.$q.notify({
               message: 'berhasil menghapus data',
@@ -159,13 +126,6 @@ export default {
           this.datasetTanaman()
         })
     }
-    // datasetAlat () {
-    //   api.get('/alat', createToken())
-    //     .then((res) => {
-    //       this.data = res.data.data
-    //       console.log(this.data)
-    //     })
-    // }
   }
 }
 </script>

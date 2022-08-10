@@ -16,7 +16,7 @@
       </q-card-section>
       <q-card-section class="q-pt-none">
         <div class="text-subtitle1 text-center text-orange">
-          {{sensor.ADC}}°C
+          <!-- {{sensor.ADC}}°C -->
         </div>
       </q-card-section>
     </q-card>
@@ -36,7 +36,7 @@
       </q-card-section>
       <q-card-section class="q-pt-none">
         <div class="text-subtitle1 text-center text-orange">
-          {{sensor.ADC}}Cd
+          {{lampu}}
         </div>
       </q-card-section>
     </q-card>
@@ -56,7 +56,7 @@
       </q-card-section>
       <q-card-section class="q-pt-none">
         <div class="text-subtitle1 text-center text-orange">
-          {{sensor.ADC}}CM
+          <!-- {{sensor.MAC}}CM -->
         </div>
       </q-card-section>
     </q-card>
@@ -76,7 +76,7 @@
       </q-card-section>
       <q-card-section class="q-pt-none">
         <div class="text-subtitle1 text-center text-orange">
-          {{sensor.ADC}} PH
+          {{soil}} PH
         </div>
       </q-card-section>
     </q-card>
@@ -108,138 +108,6 @@
   </div>
   </q-page>
 </template>
-<!-- <script>
-import consumer from 'configRMQ/mqtt'
-import Chart from 'configRMQ/Chart'
-export default {
-  name: 'PageIndex',
-  sensor: null,
-  invokedIdCnt: 0,
-  components: {
-    Chart
-  },
-  data () {
-    return {
-      name: null,
-      sensor: null,
-      height: 300,
-      slide: 1,
-      about: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      shadoof: 'Shadoof adalah sebuah sistem yang dirancang untuk perariran otomatis dengan menggunakan pendekatan IOT (Internet Of Think).',
-      data: {
-        labels: [],
-        datasets: [
-          {
-            label: 'Shadoof',
-            backgroundColor: '#228B22',
-            data: []
-          }
-        ]
-      },
-      options: {
-        responsive: true
-      },
-      default: [],
-      defLbl: []
-    }
-  },
-  beforeCreate: async function () {
-    consumer.on('connect', function () {
-      console.log('connect bray')
-      consumer.subscribe('sensor01', function (err) {
-        if (!err) {
-          console.log(consumer)
-          console.log('Subscribe Berhasil')
-        } else if (err) {
-          console.log(err)
-        }
-      })
-    }).on('error', function (err) {
-      console.log(err)
-    })
-  },
-  beforePrintHandler: function () {
-    for (const id in Chart.instances) {
-      Chart.instances[id].resize()
-    }
-  },
-  mounted () {
-    this.getMessages()
-    this.pushAngka()
-  },
-  methods: {
-    pushAngka (angka) {
-      if (this.default.length === 50) {
-        this.default.splice(0, 1)
-        console.log(this.default)
-        this.defLbl.splice(0, 1)
-        const data = this.default
-        const lbl = this.defLbl
-        for (let index = 0; index < 1; index++) {
-          data.push(angka)
-          const date = new Date()
-          const jam = date.getHours()
-          const menit = date.getMinutes()
-          lbl.push(jam + ':' + menit)
-        }
-        this.default = data
-        this.data = {
-          labels: lbl,
-          datasets: [
-            {
-              label: 'Shadoof',
-              backgroundColor: '#228B22',
-              data: this.default
-            }
-          ]
-        }
-        console.log(data)
-      } else {
-        const data = this.default
-        const lbl = this.defLbl
-        for (let index = 0; index < 1; index++) {
-          data.push(angka)
-          const date = new Date()
-          const jam = date.getHours()
-          const menit = date.getMinutes()
-          lbl.push(jam + ':' + menit)
-        }
-        this.default = data
-        this.data = {
-          labels: lbl,
-          datasets: [
-            {
-              label: 'Kelembapan Tanah',
-              backgroundColor: '#228B22',
-              data: this.default
-            }
-          ]
-        }
-      }
-    },
-    getMessages: function () {
-      consumer.on('message', (topic, message) => {
-        // this.sensor = message.toString()
-        // console.log(message.toString())
-        this.pushAngka(Number(message.toString()))
-      })
-      // console.log(this.message)
-    }
-  },
-  increase () {
-    this.height += 10
-  },
-  computed: {
-    myStyles () {
-      return {
-        height: `${this.height}px`,
-        position: 'relative'
-      }
-    }
-  }
-}
-</script> -->
-
 <script>
 import { defineAsyncComponent, defineComponent } from 'vue'
 import mqttjs from 'mqtt'
@@ -256,8 +124,8 @@ export default defineComponent({
     return {
       dataSensor: null,
       datanya: null,
-      sensor: {},
-      sensor1: {},
+      soil: null,
+      lampu: null,
       datas: [],
       datass: [],
       title: 'lahhh'
@@ -280,9 +148,14 @@ export default defineComponent({
           // console.log(err)
         }
       })
+      client.subscribe('lampu', function (err) {
+        if (!err) {
+          // console.log(err)
+        }
+      })
     })
     // client.on('connect', function () {
-    //   client.subscribe('sensor01', function (err) {
+    //   client.subscribe('lampu', function (err) {
     //     if (!err) {
     //       // console.log(err)
     //     }
@@ -295,15 +168,24 @@ export default defineComponent({
   },
   methods: {
     getMessages: function () {
-      const parseSensor = (data) => {
-        this.sensor = data
-        this.datas.push(Number(data.ADC))
+      // eslint-disable-next-line no-var
+      var parseSensor = (data) => {
+        console.log(data)
+        if (data.ADC !== undefined) {
+          this.soil = data.ADC
+        }
+        if (data.LAMPU !== undefined) {
+          this.lampu = data.LAMPU
+        }
+        // this.datas.push(Number(data.ADC))
         // console.log(this.createChart('line-chart'))
-        console.log(this.sensor)
+        console.log(this.soil)
+        console.log(this.lampu)
       }
       client.on('message', function (topic, message) {
         const msg = JSON.parse(message.toString())
         parseSensor(msg)
+        // console.log(msg)
       })
     }
     // getMessages1: function () {
