@@ -108,16 +108,13 @@ export default {
         LUAS_AREA_TANAM: this.LUAS_AREA_TANAM
       }, createToken()).then((res) => {
         if (res.data.status === true) {
-          // this.$q.localStorage.set('dataTanamanUser', res.data.data)
           this.$router.push('/dataTanaman')
-          // console.log('push')
           this.$q.notify({
             message: res.data.message,
             color: 'teal-10',
             icon: 'ion-checkmark'
           })
         } else {
-          // this.$q.localStorage.set('dataTanamanUser', res.data.data)
           this.$q.notify({
             message: res.data.message,
             color: 'teal-10',
@@ -126,21 +123,7 @@ export default {
         }
       })
     }
-    // select () {
-    //   api.get('/tanaman', createToken())
-    //     .then((res) => {
-    //       // console.log(res)
-    //       this.data = res.data.data
-    //       this.data = res.data.data
-    //       // this.optionAlat = res.data.data
-    //       // console.log(res.data.data[0])
-    //       // console.log(this.optionTanaman)
-    //     })
-    // }
   }
-  // created () {
-  //   this.select()
-  // }
 }
 </script>
 <style scoped>

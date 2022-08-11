@@ -41,7 +41,7 @@
       <!-- </q-expansion-item> -->
       <q-select
         filled
-        key="ID_ALAT"
+        key="DATA_SENSOR"
         v-model="alat"
         option-label="DATA_SENSOR"
         :options="optionAlat"
@@ -50,7 +50,8 @@
       <template v-slot:option="scope">
         <q-item v-bind="scope.itemProps">
           <q-item-section>
-            <q-item-label>{{ scope.opt.DATA_SENSOR }}</q-item-label>
+            <q-item-label>{{ scope.opt.DATA_SENSOR + scope.opt.GUID }}</q-item-label>
+            <!-- <q-item-label>{{ scope.opt.DATA_SENSOR + scope.opt.GUID }}</q-item-label> -->
             <q-item-label caption>{{ scope.opt.GUID }}</q-item-label>
           </q-item-section>
         </q-item>
@@ -105,7 +106,7 @@ export default {
   methods: {
     onSubmit () {
       api.post('tanam/create', {
-        ID_TANAMAN: this.tanaman.GUID,
+        ID_TANAMAN: this.tanaman,
         ID_ALAT: this.alat.GUID,
         SUHU_MINIMAL: this.SUHU_MINIMAL,
         SUHU_MAX: this.SUHU_MAX
