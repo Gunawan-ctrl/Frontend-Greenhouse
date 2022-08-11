@@ -24,19 +24,19 @@
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="USERNAME" :props="props">
-              <q-badge color="green">
               {{ props.row.USERNAME }}
-              </q-badge>
+            </q-td>
+            <q-td key="NAMA_GREENHOUSE" :props="props">
+                {{ props.row.NAMA_GREENHOUSE }}
+            </q-td>
+            <q-td key="ALAMAT" :props="props">
+                {{ props.row.ALAMAT }}
             </q-td>
             <q-td key="EMAIL" :props="props">
-              <q-badge color="green">
                 {{ props.row.EMAIL }}
-              </q-badge>
             </q-td>
             <q-td key="NO_TELPON" :props="props">
-              <q-badge color="orange">
                 {{ props.row.NO_TELPON }}
-              </q-badge>
             </q-td>
             <q-td key="action" :props="props">
           <div class="justify-center q-gutter-x-xs">
@@ -85,6 +85,8 @@ export default {
           sortable: true
         },
         { name: 'EMAIL', align: 'center', label: 'Email', field: 'EMAIL', sortable: true },
+        { name: 'ALAMAT', align: 'center', label: 'Alamat', field: 'ALAMAT', sortable: true },
+        { name: 'NAMA_GREENHOUSE', align: 'center', label: 'Nama Greenhouse', field: 'NAMA_GREENHOUSE', sortable: true },
         { name: 'NO_TELPON', align: 'center', label: 'No Telpon', field: 'NO_TELPON', sortable: true },
         { name: 'action', label: 'Action', field: 'action', sortable: true }
       ],
@@ -98,23 +100,23 @@ export default {
     dataUser () {
       api.get('/users/get-role-user', createToken())
         .then((res) => {
-          // console.log(res.data)
           this.data = res.data.data
         })
+    },
+    hapusUser (GUID) {
+      api.delete('users/delete' + GUID, createToken())
+        .then((res) => {
+          console.log(res)
+          if (res.data.status === true) {
+            this.$q.notify({
+              message: 'berhasil menghapus data',
+              color: 'teal-10',
+              icon: 'ion-close'
+            })
+          }
+          this.dataUser()
+        })
     }
-    // hapusUser (GUID) {
-    //   api.delete('user/' + GUID, createToken())
-    //     .then((res) => {
-    //       if (res.data.status === true) {
-    //         this.$q.notify({
-    //           message: 'berhasil menghapus data',
-    //           color: 'positive',
-    //           icon: 'ion-close'
-    //         })
-    //       }
-    //       this.dataUser()
-    //     })
-    // },
     // edit (GUID) {
     //   this.$router.push('/editUser/' + GUID)
     // }

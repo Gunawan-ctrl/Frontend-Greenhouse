@@ -35,10 +35,8 @@
     </template>
     <template v-slot:body="props">
       <q-tr :props="props">
-        <q-td key="ID_TANAMAN" :props="props">{{ props.row.ID_TANAMAN }}</q-td>
-        <q-td key="ID_ALAT" :props="props">{{ props.row.ID_ALAT }}</q-td>
-        <!-- <q-td key="DATA_SENSOR" :props="props">{{ props.row.DATA_SENSOR }}</q-td> -->
-        <!-- <q-td key="NAMA_ALAT" :props="props">{{ props.row.NAMA_ALAT }}</q-td> -->
+        <q-td key="ID_TANAMAN" :props="props">{{ props.row.data_tanaman.NAMA_TANAMAN }}</q-td>
+        <q-td key="ID_ALAT" :props="props">{{ props.row.data_alat.DATA_SENSOR }}</q-td>
         <q-td key="SUHU_MINIMAL" :props="props">{{ props.row.SUHU_MINIMAL }}</q-td>
         <q-td key="SUHU_MAX" :props="props">{{ props.row.SUHU_MAX }}</q-td>
         <q-td key="SET" :props="props">
@@ -72,7 +70,6 @@
 <script>
 import { api } from 'src/boot/axios'
 import createToken from 'src/helpers/create_token'
-// import { ref } from 'vue'
 export default {
   data () {
     return {
@@ -101,7 +98,7 @@ export default {
   },
   created () {
     this.datasetTanaman()
-    // this.hapussetTanaman()
+    // this.datasetAlat()
   },
   methods: {
     datasetTanaman () {
@@ -109,11 +106,21 @@ export default {
         .then((res) => {
           // console.log(res)
           this.data = res.data.data
-          console.log(this.data)
+          // console.log(this.data)
 
           // GET TANAMAN AGAR YANG DI CREATE DI SET TANAMAN BUKAN ID MELAINKAN NAMANYA
         })
     },
+    // datasetAlat () {
+    //   api.get('tanam/alat/' + GUID, createToken())
+    //     .then((res) => {
+    //       console.log(res)
+    //       this.data = res.data.data
+    //       // console.log(this.data)
+
+    //       // GET TANAMAN AGAR YANG DI CREATE DI SET TANAMAN BUKAN ID MELAINKAN NAMANYA
+    //     })
+    // },
     hapussetTanaman (GUID) {
       api.delete('tanam/' + GUID, createToken())
         .then((res) => {

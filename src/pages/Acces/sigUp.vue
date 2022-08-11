@@ -11,7 +11,7 @@
             </q-item-section>
             </q-item>
 
-            <q-item class="q-mt-xl">
+            <q-item class="q-mt-md">
             <q-item-section>
                 <q-item-label class="text-weight-bolder text-h5 text-orange-4">Register Form</q-item-label>
                 <q-item-label class="text-body3 text-grey-9">Silahkan Daftarkan Identitas Anda</q-item-label>
@@ -33,6 +33,18 @@
                 >
                     <template v-slot:prepend>
                     <q-icon name="person" class="lime" />
+                    </template>
+                </q-input>
+
+                <q-input
+                    v-model="NAMA_GREENHOUSE"
+                    label="Nama Greenhouse"
+                    outlined
+                    dense
+                    :rules="[ val => val && val.length > 0 || 'Lengkapin data email nya']"
+                >
+                    <template v-slot:prepend>
+                    <q-icon name="mail" class="lime" />
                     </template>
                 </q-input>
 
@@ -106,6 +118,7 @@ export default {
   data () {
     return {
       USERNAME: null,
+      NAMA_GREENHOUSE: null,
       EMAIL: null,
       NO_TELPON: null,
       PASSWORD: null
@@ -115,6 +128,7 @@ export default {
     onSubmit () {
       api.post('users/create', {
         USERNAME: this.USERNAME,
+        NAMA_GREENHOUSE: this.NAMA_GREENHOUSE,
         EMAIL: this.EMAIL,
         NO_TELPON: this.NO_TELPON,
         PASSWORD: this.PASSWORD,

@@ -20,7 +20,6 @@
     class="q-px-md q-gutter-sm"
       @submit="onSubmit"
     >
-    <!-- <q-expansion-item> -->
       <q-select
         filled
         key="NAMA_TANAMAN"
@@ -38,7 +37,6 @@
           </q-item>
         </template>
       </q-select>
-      <!-- </q-expansion-item> -->
       <q-select
         filled
         key="DATA_SENSOR"
@@ -50,9 +48,8 @@
       <template v-slot:option="scope">
         <q-item v-bind="scope.itemProps">
           <q-item-section>
-            <q-item-label>{{ scope.opt.DATA_SENSOR + scope.opt.GUID }}</q-item-label>
-            <!-- <q-item-label>{{ scope.opt.DATA_SENSOR + scope.opt.GUID }}</q-item-label> -->
-            <q-item-label caption>{{ scope.opt.GUID }}</q-item-label>
+            <q-item-label>{{ scope.opt.DATA_SENSOR }}</q-item-label>
+            <q-item-label caption>{{ scope.opt.MAC_ADDRESS }}</q-item-label>
           </q-item-section>
         </q-item>
       </template>
@@ -70,18 +67,20 @@
         v-model="SUHU_MAX"
         label="Suhu Maksimal"
       />
-        <q-btn
-          unelevated
-          icon="add"
-          label="Tambah Set Tanaman"
-          color="teal-10"
-          type="submit"/>
+      <q-btn
+        class="q-mt-lg"
+        unelevated
+        icon="add"
+        label="Tambah Set Tanaman"
+        color="teal-10"
+        type="submit"/>
 
-        <q-btn
-          flat
-          label="Kembali"
-          to="setTanaman"
-          color="teal-10"/>
+      <q-btn
+        class="q-mt-lg"
+        flat
+        label="Kembali"
+        to="setTanaman"
+        color="teal-10"/>
     </q-form>
   </div>
   </q-page>
@@ -106,8 +105,8 @@ export default {
   methods: {
     onSubmit () {
       api.post('tanam/create', {
-        ID_TANAMAN: this.tanaman,
-        ID_ALAT: this.alat.GUID,
+        ID_TANAMAN: this.tanaman.GUID,
+        ID_ALAT: this.alat.MAC_ADDRESS,
         SUHU_MINIMAL: this.SUHU_MINIMAL,
         SUHU_MAX: this.SUHU_MAX
       }, createToken())
@@ -127,30 +126,27 @@ export default {
               icon: 'ion-close'
             })
           }
-          // console.log(Object.values(res))
-          // this.data = object.values(res.data.data)
-          // console.log(res)
         })
     },
     select () {
       api.get('tanaman/', createToken())
         .then((res) => {
-          console.log(res)
           if (res.data.status) {
+          //   // console.log(res.data.status)
             this.optionTanaman = res.data.data
-          }
           // for (let i = 0; i < res.data.data.length; i++) {
-          //   this.optionTanaman.push(res.data.data[i].NAMA_TANAMAN)
-          //   this.optionTanaman.push(res.data.data[i].GUID)
+          //   // let gabung = i= 0; i < (res.data.data.NAMA_TANAMAN).concat(res.data.data.GUID)
+          //   this.optionTanaman.push(res.data.data.NAMA_TANAMAN)
+          //   this.optionTanaman.push(res.data.data.GUID)
+          //   // this.optionTanaman(res.data.data.NAMA_TANAMAN + res.data.data.GUID)
           // }
-          // optionTanaman = JSON.stringify(res.data.data.toString())
-          // console.log(this.optionTanaman)
-          // const coba = (NAMA_TANAMAN  + GUID)
+          }
         })
     },
     selectAlat () {
       api.get('alat/', createToken())
         .then((res) => {
+          // console.log(res)
           if (res.data.status) {
             this.optionAlat = res.data.data
             // console.log(this.optionAlat)
