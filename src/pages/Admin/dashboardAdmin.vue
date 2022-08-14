@@ -1,5 +1,23 @@
 <template>
   <q-page>
+    <div class="q-pa-md">
+    <q-carousel
+      animated
+      v-model="slide"
+      arrows
+      navigation
+      infinite
+      autoplay
+      swipeable
+      transition-prev="jump-up"
+      transition-next="rotate"
+    >
+      <q-carousel-slide :name="1" img-src="https://img.freepik.com/free-photo/seedlings-planting-tray_1150-23158.jpg?w=740&t=st=1660399575~exp=1660400175~hmac=4906859723bb91d81f4c" />
+      <q-carousel-slide :name="2" img-src="https://img.freepik.com/free-photo/leafy-vegetables-are-growing-indoor-farm-vertical-farm-vertical-farm_181624-42948.jpg?w=740&t=st=1660399902~exp=1660400502~hmac=99d46bb81b482f1e8ba5d6604999c0485af133934c3b5334a55b11cfbb53d0e0" />
+      <q-carousel-slide :name="3" img-src="https://img.freepik.com/free-vector/scene-with-clean-energy-city_1308-37953.jpg?w=826&t=st=1660447157~exp=1660447757~hmac=4efd21bb3cd73698b76b5c75b80b46c3e2f1c3a6c443764f9e9e0ae0f90d7474" />
+      <q-carousel-slide :name="4" img-src="https://img.freepik.com/free-vector/green-energy-generated-by-wind-turbine-solar-panel_1308-72303.jpg?w=740&t=st=1660447247~exp=1660447847~hmac=360b2cc3efc61b565d82797325edf534541bc7a122f1b2bed874bcad190cc903" />
+    </q-carousel>
+  </div>
     <div class="q-pa-md row items-start q-gutter-md q-mx-md">
       <q-card class="my-card bg-teal-10">
         <q-img src="https://docplayer.info/docs-images/112/202456977/images/5-1.jpg" style="height: 162px;">
@@ -42,7 +60,7 @@
     </q-card>
 
     <q-card class="my-card2 bg-teal-10">
-      <q-img src="https://img.freepik.com/free-vector/smart-farm-smart-greenhouse-illustration_1284-59322.jpg?t=st=1657692865~exp=1657693465~hmac=295017b272650959b84c478176ce292fb47972d170f9bb83f9b20cacfb02263f&w=826" style="height: 162px;">
+      <q-img src="https://elektrologi.iptek.web.id/wp-content/uploads/2021/01/sensor-ultrasonik-jsn-SR04T.jpg" style="height: 162px;">
       </q-img>
       <q-card-section>
         <div class="row no-wrap items-center text-center">
@@ -62,7 +80,7 @@
     </q-card>
 
     <q-card class="my-card3 bg-teal-10">
-      <q-img src="https://img.freepik.com/free-vector/growing-plant-with-roots-soil_1308-58893.jpg?w=360&t=st=1659016031~exp=1659016631~hmac=5e4d40ff9440b653bce0f5c19030bcdaf1695d986d68f0292a5fc3661770967f" style="height: 162px;">
+      <q-img src="https://1.bp.blogspot.com/-V4k8c0U2bzo/X28DIRkPx-I/AAAAAAAAEWc/UHx7wasGjuk6i9SBxGHpPzMe-HsZmTuLACLcBGAsYHQ/w640-h420/Schematics%2BSoil.png" style="height: 162px;">
       </q-img>
       <q-card-section>
         <div class="row no-wrap items-center text-center">
@@ -128,7 +146,8 @@ export default defineComponent({
       lampu: null,
       datas: [],
       datass: [],
-      title: 'lahhh'
+      title: 'lahhh',
+      slide: 1
     }
   },
   beforeCreate: async function () {
@@ -153,14 +172,17 @@ export default defineComponent({
           // console.log(err)
         }
       })
+      client.subscribe('sensor01', function (err) {
+        if (!err) {
+          // console.log(err)
+        }
+      })
+      client.subscribe('sensor03', function (err) {
+        if (!err) {
+          // console.log(err)
+        }
+      })
     })
-    // client.on('connect', function () {
-    //   client.subscribe('lampu', function (err) {
-    //     if (!err) {
-    //       // console.log(err)
-    //     }
-    //   })
-    // })
   },
   mounted () {
     this.getMessages()
@@ -188,18 +210,6 @@ export default defineComponent({
         // console.log(msg)
       })
     }
-    // getMessages1: function () {
-    //   const parseSensor = (data) => {
-    //     this.sensor1 = data
-    //     this.datass.push(Number(data.ADC))
-    //     // console.log(this.createChart('line-chart'))
-    //     console.log(this.sensor1)
-    //   }
-    //   client.onn('message', function (topic, message) {
-    //     const msg = JSON.parse(message.toString())
-    //     parseSensor(msg)
-    //   })
-    // }
   }
 })
 </script>
