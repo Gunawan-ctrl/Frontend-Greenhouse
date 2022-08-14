@@ -1,47 +1,41 @@
 <template>
   <q-layout>
     <q-page-container>
-      <q-page padding class="row items-center justify-center bg-grey-5">
+      <q-page padding class="row items-center justify-center bg-grey-2">
         <div class="row full-width">
           <div class="col-md-8 offset-md-2 col-xs-12 q-pa-md">
-            <q-item>
-              <q-item-section class="text-center q-mb-xs">
-                <q-item-label style="font-family:customfont;" class="text-h4 text-teal-10 text-bold">Green House UBL</q-item-label>
-                <q-item-label caption class="text-white">Halaman Login Green House</q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-card class="row">
-              <div class="col-md-6">
-                <q-img src="~assets/backgroundgh.jpg" style="max-height: 500px"/>
+            <q-card class="row col-xs-12">
+              <div class="col-md-6" v-if="$q.screen.lg || $q.screen.xl || $q.screen.md">
+                <q-img src="~assets/backgroundgh.jpg" />
               </div>
-              <div class="col-6 q-mt-lg" style="max-height: 300px">
-                <div class="row justify-center q-mt-sm">
-                    <div class="col-md-8 q-pa-xs">
+              <div class="col-md-6 col-xs-12 q-mt-lg">
+                <div class="row justify-center">
+                    <div class="col-md-10 col-sm-12 q-pa-md">
+                      <div class="text-h4 text-lime text-center">Login Account</div>
+                      <div class="text-5 text-teal text-center q-pb-xl">Harap Login</div>
+
                       <q-form
                       @submit="onSubmit">
-                        <div class="text-h6 text-teal-10 text-center">Login Account</div>
                           <q-input
                             label="EMAIL"
-                            color="teal"
+                            color="lime"
                             v-model="form.EMAIL"
-                            :rules="[ val => val && val.length > 0 || 'silahkan masukkan email anda']"/>
+                            :rules="[ val => val && val.length > 0 || 'harap masukkan email anda!']"/>
                           <q-input
                             type="password"
                             label="PASSWORD"
-                            color="teal"
+                            color="lime"
                             v-model="form.PASSWORD"
-                            :rules="[ val => val && val.length > 0 || 'silahkan masukkan password anda']"
-                            >
-                            <template v-slot:append>
-                            </template>
+                            :rules="[ val => val && val.length > 0 || 'harap masukkan password anda!']">
                           </q-input>
 
                           <div class="q-mt-lg">
-                            <q-btn class="full-width" unelevated color="teal" label="Login" rounded type="submit"/>
+                            <q-btn class="full-width" unelevated color="lime" label="Login" rounded type="submit"/>
                             <q-btn class="full-width q-mt-md" flat unelevated color="teal" label="Registrasi" rounded :to="{ name: 'register' }"/>
                           </div>
                       </q-form>
                     </div>
+
                 </div>
               </div>
             </q-card>
@@ -76,7 +70,7 @@ export default {
           this.$q.notify({
             message: res.data.message,
             color: 'teal-10',
-            icon: 'ion-checkmark'
+            icon: 'ion-checkmar'
           })
         } else {
           this.$q.localStorage.set('dataUser', res.data.data)
@@ -87,7 +81,6 @@ export default {
             icon: 'ion-close'
           })
         }
-        // console.log(res)
       })
     }
   }

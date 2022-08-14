@@ -35,14 +35,14 @@
     </template>
     <template v-slot:body="props">
       <q-tr :props="props">
-        <q-td key="ID_TANAMAN" :props="props">{{ props.row.data_tanaman.NAMA_TANAMAN }}</q-td>
-        <q-td key="ID_ALAT" :props="props">{{ props.row.data_alat.DATA_SENSOR }}</q-td>
+        <q-td key="NAMA_TANAMAN" :props="props">{{ props.row.data_tanaman.NAMA_TANAMAN }}</q-td>
+        <q-td key="DATA_SENSOR" :props="props">{{ props.row.data_alat.DATA_SENSOR }}</q-td>
         <q-td key="SUHU_MINIMAL" :props="props">{{ props.row.SUHU_MINIMAL }}</q-td>
         <q-td key="SUHU_MAX" :props="props">{{ props.row.SUHU_MAX }}</q-td>
-        <q-td key="SET" :props="props">
+        <q-td key="SET" :props="props">{{ props.row.SET}}
           <div class="justify-center q-gutter-x-xs">
             <q-td auto-width>
-            <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
+            <q-toggle v-model="props.row.SET" checked-icon="add" unchecked-icon="remove" />
           </q-td>
           </div>
         </q-td>
@@ -79,15 +79,15 @@ export default {
       rowCount: 10,
       columns: [
         {
-          name: 'ID_TANAMAN',
+          name: 'NAMA_TANAMAN',
           required: true,
           label: 'Nama Tanaman',
           align: 'left',
-          field: row => row.ID_TANAMAN,
+          field: row => row.NAMA_TANAMAN,
           format: val => `${val}`,
           sortable: true
         },
-        { name: 'ID_ALAT', align: 'left', label: 'Sensor', field: 'ID_ALAT', sortable: true },
+        { name: 'DATA_SENSOR', align: 'left', label: 'Sensor', field: 'DATA_SENSOR', sortable: true },
         { name: 'SUHU_MINIMAL', align: 'left', label: 'Suhu Minimal', field: 'SUHU_MINIMAL', sortable: true },
         { name: 'SUHU_MAX', align: 'left', label: 'Suhu Maksimal', field: 'SUHU_MAX' },
         { name: 'SET', align: 'center', label: 'SET', field: 'SET', sortable: true },
@@ -98,29 +98,15 @@ export default {
   },
   created () {
     this.datasetTanaman()
-    // this.datasetAlat()
   },
   methods: {
     datasetTanaman () {
       api.get('/tanam', createToken())
         .then((res) => {
-          // console.log(res)
           this.data = res.data.data
           // console.log(this.data)
-
-          // GET TANAMAN AGAR YANG DI CREATE DI SET TANAMAN BUKAN ID MELAINKAN NAMANYA
         })
     },
-    // datasetAlat () {
-    //   api.get('tanam/alat/' + GUID, createToken())
-    //     .then((res) => {
-    //       console.log(res)
-    //       this.data = res.data.data
-    //       // console.log(this.data)
-
-    //       // GET TANAMAN AGAR YANG DI CREATE DI SET TANAMAN BUKAN ID MELAINKAN NAMANYA
-    //     })
-    // },
     hapussetTanaman (GUID) {
       api.delete('tanam/' + GUID, createToken())
         .then((res) => {

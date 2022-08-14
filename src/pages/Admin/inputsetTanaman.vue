@@ -22,7 +22,7 @@
     >
       <q-select
         filled
-        key="NAMA_TANAMAN"
+        key="ID_TANAMAN"
         v-model="tanaman"
         option-label="NAMA_TANAMAN"
         :options="optionTanaman"
@@ -92,8 +92,8 @@ import { api } from 'src/boot/axios'
 export default {
   data () {
     return {
-      ID_TANAMAN: null,
-      ID_ALAT: null,
+      NAMA_TANAMAN: null,
+      DATA_SENSOR: null,
       SUHU_MINIMAL: null,
       SUHU_MAX: null,
       optionTanaman: [],
@@ -104,14 +104,17 @@ export default {
   },
   methods: {
     onSubmit () {
-      api.post('tanam/create', {
+      // console.log()
+      const payload = {
         ID_TANAMAN: this.tanaman.GUID,
-        ID_ALAT: this.alat.MAC_ADDRESS,
+        ID_ALAT: this.alat.GUID,
+        MAC_ADDRESS: this.alat.MAC_ADDRESS,
         SUHU_MINIMAL: this.SUHU_MINIMAL,
         SUHU_MAX: this.SUHU_MAX
-      }, createToken())
+      }
+      console.log(payload)
+      api.post('tanam/create', payload, createToken())
         .then((res) => {
-          console.log(res)
           if (res.data.status === true) {
             this.$router.push('/setTanaman')
             this.$q.notify({
@@ -132,24 +135,15 @@ export default {
       api.get('tanaman/', createToken())
         .then((res) => {
           if (res.data.status) {
-          //   // console.log(res.data.status)
             this.optionTanaman = res.data.data
-          // for (let i = 0; i < res.data.data.length; i++) {
-          //   // let gabung = i= 0; i < (res.data.data.NAMA_TANAMAN).concat(res.data.data.GUID)
-          //   this.optionTanaman.push(res.data.data.NAMA_TANAMAN)
-          //   this.optionTanaman.push(res.data.data.GUID)
-          //   // this.optionTanaman(res.data.data.NAMA_TANAMAN + res.data.data.GUID)
-          // }
           }
         })
     },
     selectAlat () {
       api.get('alat/', createToken())
         .then((res) => {
-          // console.log(res)
           if (res.data.status) {
             this.optionAlat = res.data.data
-            // console.log(this.optionAlat)
           }
         })
     }
