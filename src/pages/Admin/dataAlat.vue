@@ -9,7 +9,7 @@
                 <div class="col" style="max-width: fit-content">
                     <q-banner rounded inline-actions class="text-white bg-teal-10">
                     <div class="text-h6">Data Alat</div>
-                    <div>Daftar Data Alat Green House </div>
+                    <div>detail data alat greenhouse </div>
                     </q-banner>
                 </div>
                 </div>
@@ -91,7 +91,7 @@ export default {
           sortable: true
         },
         // { name: 'NAMA_ALAT', align: 'center', label: 'Nama Alat', field: 'NAMA_ALAT', sortable: true },
-        { name: 'DATA_SENSOR', align: 'center', label: 'DATA SENSOR', field: 'DATA_SENSOR', sortable: true },
+        { name: 'DATA_SENSOR', align: 'center', label: 'Sensor', field: 'DATA_SENSOR', sortable: true },
         { name: 'EMAIL', align: 'center', label: 'Email', field: 'EMAIL', sortable: true },
         { name: 'action', align: 'center', label: 'Action', field: 'action', sortable: true }
       ],
@@ -103,9 +103,9 @@ export default {
   },
   methods: {
     dataAlat () {
-      api.get('/alat', createToken())
+      api.get('/alat/getByEmail/' + this.$q.localStorage.getItem('dataUser').user.EMAIL, createToken())
         .then((res) => {
-          // console.log(res.data.data)
+          console.log(res)
           this.data = res.data.data
         })
     },
