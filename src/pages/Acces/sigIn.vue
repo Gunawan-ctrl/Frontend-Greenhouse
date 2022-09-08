@@ -11,8 +11,8 @@
               <div class="col-md-6 col-xs-12 q-mt-lg">
                 <div class="row justify-center">
                     <div class="col-md-10 col-sm-12 q-pa-md">
-                      <div class="text-h4 text-lime text-center">Login Account</div>
-                      <div class="text-5 text-teal text-center q-pb-xl">Harap Login</div>
+                      <div class="text-h4 text-teal-10 text-center">Login Account</div>
+                      <div class="text-5 text-teal text-center q-pb-xl">silahkan login akun anda</div>
 
                       <q-form
                       @submit="onSubmit">
@@ -30,8 +30,8 @@
                           </q-input>
 
                           <div class="q-mt-lg">
-                            <q-btn class="full-width" unelevated color="lime" label="Login" rounded type="submit"/>
-                            <q-btn class="full-width q-mt-md" flat unelevated color="teal" label="Registrasi" rounded :to="{ name: 'register' }"/>
+                            <q-btn class="full-width" unelevated color="teal-10" label="Login" rounded type="submit"/>
+                            <q-btn class="full-width q-mt-md" flat unelevated color="grey-10" label="Registrasi" rounded :to="{ name: 'register' }"/>
                           </div>
                       </q-form>
                     </div>
@@ -62,26 +62,48 @@ export default {
       api.post('/users/login', {
         EMAIL: this.form.EMAIL,
         PASSWORD: this.form.PASSWORD
-      }).then((res) => {
-        // console.log(res)
-        if (res.data.data.user.ROLE === '1') {
-          this.$q.localStorage.set('dataUser', res.data.data)
-          this.$router.push('/')
-          this.$q.notify({
-            message: res.data.message,
-            color: 'teal-10',
-            icon: 'ion-checkmar'
-          })
-        } else {
-          this.$q.localStorage.set('dataUser', res.data.data)
-          this.$router.push('/dashboardUser')
-          this.$q.notify({
-            message: res.data.message,
-            color: 'green',
-            icon: 'ion-close'
-          })
-        }
       })
+        .then((res) => {
+          console.log(res)
+          if (res.data.status === false) {
+            this.$q.notify({
+              color: 'negative',
+              message: res.data.message,
+              icon: 'ion-close'
+            })
+          } else {
+            this.$q.notify({
+              color: 'teal-10',
+              message: res.data.message,
+              icon: 'ion-checkmark'
+            })
+            if (res.data.data.user.ROLE === '1') {
+              this.$q.localStorage.set('dataUser', res.data.data)
+              this.$router.push('/dashboardAdmin')
+            }
+          }
+        })
+
+      // .then((res) => {
+      //   console.log(res)
+      //   if (res.data.data.user.ROLE === '1') {
+      //     this.$q.localStorage.set('dataUser', res.data.data)
+      //     this.$router.push('/')
+      //     this.$q.notify({
+      //       message: res.data.message,
+      //       color: 'teal-10',
+      //       icon: 'ion-checkmar'
+      //     })
+      //   } else {
+      //     this.$q.localStorage.set('dataUser', res.data.data)
+      //     this.$router.push('/dashboardUser')
+      //     this.$q.notify({
+      //       message: res.data.message,
+      //       color: 'green',
+      //       icon: 'ion-close'
+      //     })
+      //   }
+      // })
     }
   }
 }

@@ -14,7 +14,7 @@
         <q-toolbar class="text-weight-bold text-h6">Green House Aplication</q-toolbar>
         <q-btn flat round>
           <q-avatar>
-            <img src="~assets/profile-man.jpg">
+            <img src="https://img.freepik.com/free-vector/goal-achievement-teamwork-business-concept-career-growth-cooperation-development-project_107791-29.jpg?1&w=740&t=st=1661956287~exp=1661956887~hmac=30dc6af124e378f1632d5e6b868edc0b838f8bd4ad52766dfa483869f89f5fa1">
           </q-avatar>
           <q-menu touch-position>
           <q-list style="min-width: 100px">
@@ -43,7 +43,7 @@
             <q-img class="absolute-top" src="https://png.pngtree.com/thumb_back/fw800/background/20220204/pngtree-scene-of-window-on-dark-green-house-shines-with-sunlight-image_984999.jpg" style="height: 155px">
           <div class="absolute-bottom absolute-top">
             <q-avatar size="80px" class="q-mb-xs">
-              <img src="~assets/profile-man.jpg">
+              <img src="https://img.freepik.com/free-vector/goal-achievement-teamwork-business-concept-career-growth-cooperation-development-project_107791-29.jpg?1&w=740&t=st=1661956287~exp=1661956887~hmac=30dc6af124e378f1632d5e6b868edc0b838f8bd4ad52766dfa483869f89f5fa1">
             </q-avatar>
             <div class="text-weight-bold text-orange text-subtitle1 q-mt-xs">{{ dataUser.user.USERNAME }}</div>
             <div class="q-mb-xs">Green House Aplication</div>
@@ -83,6 +83,7 @@
             </q-item-section>
           </q-item>
 
+          <!-- * FITUR BELUM DI KONFIRMASI -->
           <!-- <q-item clickable active-class="active" v-ripple exact :to="{ name:'dataKebun' }">
             <q-item-section avatar>
               <q-icon name="local_florist" />
@@ -91,13 +92,23 @@
               <q-item-label>Data Kebun</q-item-label>
             </q-item-section>
           </q-item> -->
+          <!-- * END FITUR BELUM DIKONFIRMASI -->
 
           <q-item clickable active-class="active" v-ripple exact :to="{ name:'setTanaman' }">
             <q-item-section avatar>
-              <q-icon name="spa" />
+              <q-icon class="q-ml-sm q-pa-xs" name="cloudy" />
             </q-item-section>
             <q-item-section class="text-weight-bold">
-              <q-item-label>Set Tanaman</q-item-label>
+              <q-item-label>Set Suhu</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item clickable active-class="active" v-ripple exact :to="{ name:'setCahaya' }">
+            <q-item-section avatar>
+              <q-icon name="sunny" />
+            </q-item-section>
+            <q-item-section class="text-weight-bold">
+              <q-item-label>Set Cahaya</q-item-label>
             </q-item-section>
           </q-item>
 

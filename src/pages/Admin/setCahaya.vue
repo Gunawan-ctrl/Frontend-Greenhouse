@@ -7,8 +7,8 @@
         </div>
         <div class="col" style="max-width: fit-content">
           <q-banner rounded inline-actions class="bg-teal-10 text-white">
-          <div class="text-h6">Data Tanaman</div>
-          <div>detail data tanamanan greenhouse</div>
+          <div class="text-h6">Data Set Cahaya</div>
+          <div>detail data set cahaya greenhouse</div>
           </q-banner>
         </div>
         </div>
@@ -22,9 +22,10 @@
     :columns="columns"
     row-key="name"
     :filter="filter"
+    :loading="loading"
   >
     <template v-slot:top>
-      <q-btn color="teal-10" :disable="loading" label="Tambah Tanaman" :to="{name:'InputDataTanaman'}" />
+      <q-btn color="teal-10" :disable="loading" label="Tambah Set Cahaya" :to="{name:'inputsetCahaya'}" />
       <q-space />
       <q-input color="teal-10" v-model="filter" placeholder="Search">
         <template v-slot:append>
@@ -34,26 +35,26 @@
     </template>
     <template v-slot:body="props">
       <q-tr :props="props">
-        <q-td key="NAMA_TANAMAN" :props="props">
-          {{ props.row.NAMA_TANAMAN }}
-        </q-td>
-        <q-td key="JENIS_TANAMAN" :props="props">{{ props.row.JENIS_TANAMAN }}</q-td>
-        <q-td key="HARGA" :props="props">{{ props.row.HARGA }}</q-td>
-        <q-td key="DESKRIPSI" :props="props">{{ props.row.DESKRIPSI }}</q-td>
-        <q-td key="LUAS_AREA_TANAM" :props="props">{{ props.row.LUAS_AREA_TANAM }}</q-td>
+        <q-td key="NAMA_TANAMAN" :props="props">{{ props.row.data_tanaman.NAMA_TANAMAN }}</q-td>
+        <q-td key="DATA_SENSOR" :props="props">{{ props.row.data_alat.DATA_SENSOR }}</q-td>
+        <q-td key="TGL_GANTI_WARNA" :props="props">{{ props.row.TGL_GANTI_WARNA }}</q-td>
+        <q-td key="TGL_PANEN" :props="props">{{ props.row.TGL_PANEN }}</q-td>
+        <!-- * Start Toogle Data Set Cahaya -->
+        <!-- <q-td key="SET" :props="props">{{ props.row.SET}}
+          <div class="justify-center q-gutter-x-xs">
+            <q-td auto-width>
+            <q-toggle v-model="props.row.SET" checked-icon="add" unchecked-icon="remove" />
+          </q-td>
+          </div>
+        </q-td> -->
+        <!-- * End Toogle Data Set Cahaya -->
         <q-td key="action" :props="props">
           <div class="justify-center q-gutter-x-xs">
-            <q-btn color="teal"
-              dense size="sm"
-              class="q-px-xs"
-              icon="edit"
-              @click="edit(props.row.GUID)"
-              label="Edit"></q-btn>
             <q-btn
               color="red"
               dense
               size="sm"
-              @click="hapusTanaman(props.row.GUID)"
+              @click="hapussetCahaya(props.row.GUID)"
               class="q-px-xs"
               icon="delete"
               label="Hapus"></q-btn>
@@ -71,11 +72,10 @@
 <script>
 import { api } from 'src/boot/axios'
 import createToken from 'src/helpers/create_token'
-
 export default {
   data () {
     return {
-      dataUser: this.$q.localStorage.getItem('dataUser'),
+      model: null,
       loading: false,
       filter: '',
       rowCount: 10,
@@ -89,22 +89,34 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        { name: 'JENIS_TANAMAN', align: 'left', label: 'Jenis Tanaman', field: 'JENIS_TANAMAN', sortable: true },
-        { name: 'HARGA', align: 'left', label: 'Harga', field: 'HARGA', sortable: true },
-        { name: 'DESKRIPSI', align: 'left', label: 'Deskripsi', field: 'DESKRIPSI' },
-        { name: 'LUAS_AREA_TANAM', align: 'left', label: 'Luas Area Tanam', field: 'LUAS_AREA_TANAM' },
+        // {
+        //   name: 'ID_TANAMAN',
+        //   required: true,
+        //   label: 'Nama Tanaman',
+        //   align: 'left',
+        //   field: row => row.ID_TANAMAN,
+        //   format: val => `${val}`,
+        //   sortable: true
+        // },
+        { name: 'DATA_SENSOR', align: 'left', label: 'Sensor', field: 'DATA_SENSOR', sortable: true },
+        // { name: 'ID_TANAMAN', align: 'left', label: 'NAMA TANAMAN', field: 'ID_ALAT', sortable: true },
+        // { name: 'ID_ALAT', align: 'left', label: 'DATA SENSOR', field: 'ID_ALAT', sortable: true },
+        // { name: 'TGL_GANTI_WARNA', align: 'left', label: 'Tanggal Ganti Warna', field: 'TGL_GANTI_WARNA', sortable: true },
+        { name: 'TGL_PANEN', align: 'left', label: 'Tanggal Panen', field: 'TGL_PANEN' },
+        // { name: 'SET', align: 'center', label: 'SET', field: 'SET', sortable: true },
         { name: 'action', align: 'center', label: 'Action', field: 'action', sortable: true }
       ],
       data: []
     }
   },
   created () {
-    this.dataTanaman()
+    this.datasetCahaya()
+    // this.hapussetCahaya()
   },
   methods: {
-    dataTanaman () {
-      api.get('/tanaman/getbyIdUser/' + this.$q.localStorage.getItem('dataUser').user.GUID, createToken())
-      // api.get('/tanaman/', createToken())
+    datasetCahaya () {
+      api.get('/cahaya/getByIdUser/' + this.$q.localStorage.getItem('dataUser').user.GUID, createToken())
+      // api.get('/tanam/', createToken())
         .then((res) => {
           console.log(res)
           this.data = res.data.data
@@ -112,9 +124,10 @@ export default {
           // console.log(res.data.data.GUID)
         })
     },
-    hapusTanaman (GUID) {
-      api.delete('tanaman/' + GUID, createToken())
+    hapussetCahaya (GUID) {
+      api.delete('cahaya/' + GUID, createToken())
         .then((res) => {
+          console.log(res)
           if (res.data.status === true) {
             this.$q.notify({
               message: 'berhasil menghapus data',
@@ -122,11 +135,8 @@ export default {
               icon: 'ion-close'
             })
           }
-          this.dataTanaman()
+          this.datasetCahaya()
         })
-    },
-    edit (GUID) {
-      this.$router.push('/editTanaman/' + GUID)
     }
   }
 }

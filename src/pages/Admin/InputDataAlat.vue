@@ -8,7 +8,7 @@
           <div class="col" style="max-width: fit-content;">
             <q-banner rounded inline-actions class="text-white bg-teal-10">
               <div class="text-h6">Input Alat</div>
-              <div>Input Alat Green House</div>
+              <div>input alat greenhouse</div>
             </q-banner>
           </div>
         </div>
@@ -37,19 +37,19 @@
         :options="optionSensor"
         label="Pilih Sensor"
       />
-      <q-input
+      <!-- <q-input
       class="q-mt-md"
       filled
       v-model="EMAIL"
       label="Email"
       :rules="[ val => val && val.length > 0 || 'silahkan masukkan nama email anda']"
-      />
+      /> -->
         <div class="q-pa-md q-gutter-sm">
           <q-btn
             unelevated
             icon="add"
             label="Tambah Alat"
-            color="teal-10" type="submit" :disable="loading" />
+            color="teal-10" type="submit" />
 
           <q-btn
             flat
@@ -74,9 +74,7 @@ export default {
       DATA_SENSOR: null,
       optionSensor: [
         'Sensor Suhu',
-        'Sensor Soil',
-        'Sensor Cahaya',
-        'Sensor Ketingian air'
+        'Cahaya'
       ]
     }
   },
@@ -86,7 +84,8 @@ export default {
         MAC_ADDRESS: this.MAC_ADDRESS,
         // NAMA_ALAT: this.NAMA_ALAT,
         DATA_SENSOR: this.DATA_SENSOR,
-        EMAIL: this.EMAIL
+        // EMAIL: this.EMAIL
+        EMAIL: this.$q.localStorage.getItem('dataUser').user.EMAIL
       }, createToken()).then((res) => {
         console.log(res)
         if (res.data.status === true) {

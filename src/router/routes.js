@@ -14,7 +14,9 @@ const routes = [
       { path: '/dataKebun', name: 'dataKebun', component: () => import('pages/Admin/dataKebun.vue') },
       { path: '/dataUser', name: 'dataUser', component: () => import('pages/Admin/dataUser.vue') },
       { path: '/setTanaman', name: 'setTanaman', component: () => import('pages/Admin/setTanaman.vue') },
-      { path: '/editsetTanaman/:guid', name: 'editsetTanaman', component: () => import('pages/Admin/editsetTanaman.vue') },
+      { path: '/setCahaya', name: 'setCahaya', component: () => import('pages/Admin/setCahaya.vue') },
+      { path: '/inputsetCahaya', name: 'inputsetCahaya', component: () => import('pages/Admin/inputsetCahaya.vue') },
+      // { path: '/editsetTanaman/:guid', name: 'editsetTanaman', component: () => import('pages/Admin/editsetTanaman.vue') },
       { path: '/inputsetTanaman', name: 'inputsetTanaman', component: () => import('pages/Admin/inputsetTanaman.vue') },
       { path: '/InputDataAlat', name: 'InputDataAlat', component: () => import('pages/Admin/InputDataAlat.vue') },
       { path: '/InputDataTanaman', name: 'InputDataTanaman', component: () => import('pages/Admin/InputDataTanaman.vue') },
@@ -24,23 +26,23 @@ const routes = [
       { path: '/editKebun/:guid', name: 'editKebun', component: () => import('pages/Admin/editKebun.vue') }
     ]
   },
-  {
-    path: '/userLayout',
-    component: () => import('layouts/userLayout.vue'),
-    meta: {
-      auth: true
-    },
-    children: [
-      { path: '/dashboardUser', name: 'dashboardUser', component: () => import('pages/User/dashboardUser.vue') },
-      { path: '/dataAlatUser', name: 'dataAlatUser', component: () => import('pages/User/dataAlat.vue') },
-      { path: '/inputAlatUser', name: 'inputAlatUser', component: () => import('pages/User/inputAlatUser.vue') },
-      { path: '/dataTanamanUser', name: 'dataTanamanUser', component: () => import('pages/User/dataTanaman.vue') },
-      { path: '/inputTanamanUser', name: 'inputTanamanUser', component: () => import('pages/User/inputTanamanUser.vue') },
-      { path: '/dataKebunUser', name: 'dataKebunUser', component: () => import('pages/User/dataKebun.vue') },
-      { path: '/inputKebunUser', name: 'inputKebunUser', component: () => import('pages/User/inputKebunUser.vue') },
-      { path: '/editTanamanUser/:guid', name: 'editTanamanUser', component: () => import('pages/User/editTanamanUser.vue') }
-    ]
-  },
+  // {
+  //   path: '/userLayout',
+  //   component: () => import('layouts/userLayout.vue'),
+  //   meta: {
+  //     auth: true
+  //   },
+  //   children: [
+  //     { path: '/dashboardUser', name: 'dashboardUser', component: () => import('pages/User/dashboardUser.vue') },
+  //     { path: '/dataAlatUser', name: 'dataAlatUser', component: () => import('pages/User/dataAlat.vue') },
+  //     { path: '/inputAlatUser', name: 'inputAlatUser', component: () => import('pages/User/inputAlatUser.vue') },
+  //     { path: '/dataTanamanUser', name: 'dataTanamanUser', component: () => import('pages/User/dataTanaman.vue') },
+  //     { path: '/inputTanamanUser', name: 'inputTanamanUser', component: () => import('pages/User/inputTanamanUser.vue') },
+  //     { path: '/dataKebunUser', name: 'dataKebunUser', component: () => import('pages/User/dataKebun.vue') },
+  //     { path: '/inputKebunUser', name: 'inputKebunUser', component: () => import('pages/User/inputKebunUser.vue') },
+  //     { path: '/editTanamanUser/:guid', name: 'editTanamanUser', component: () => import('pages/User/editTanamanUser.vue') }
+  //   ]
+  // },
   {
     path: '/utamaLayout',
     component: () => import('layouts/utamaLayout.vue'),

@@ -8,7 +8,7 @@
           <div class="col" style="max-width: fit-content;">
             <q-banner rounded inline-actions class="text-white bg-teal-10">
               <div class="text-h6">Edit Tanaman</div>
-              <div>Edit Tanaman Green House</div>
+              <div>edit tanaman greenhouse</div>
             </q-banner>
           </div>
         </div>

@@ -7,8 +7,8 @@
           </div>
           <div class="col" style="max-width: fit-content;">
             <q-banner rounded inline-actions class="text-white bg-teal-10 q-px-md">
-              <div class="text-h6">Input set Tanaman</div>
-              <div>input set tanaman greenhouse</div>
+              <div class="text-h6">Input set Cahaya</div>
+              <div>input set Cahaya greenhouse</div>
             </q-banner>
           </div>
         </div>
@@ -55,24 +55,24 @@
         </q-item>
       </template>
       </q-select>
+      <!-- <q-input
+        filled
+        type="Date"
+        v-model="TGL_GANTI_WARNA"
+        label="Tanggal Ganti Warna"
+      /> -->
       <q-input
         filled
-        type="number"
-        v-model="SUHU_MINIMAL"
-        label="Suhu Minimal"
-      />
-      <q-input
-        filled
+        type="Date"
         class="q-mt-md"
-        type="number"
-        v-model="SUHU_MAX"
-        label="Suhu Maksimal"
+        v-model="TGL_PANEN"
+        label="Tanggal Panen"
       />
       <q-btn
         class="q-mt-lg"
         unelevated
         icon="add"
-        label="Tambah Set Tanaman"
+        label="Tambah Set Cahaya"
         color="teal-10"
         type="submit"/>
 
@@ -80,7 +80,7 @@
         class="q-mt-lg"
         flat
         label="Kembali"
-        to="setTanaman"
+        to="setCahaya"
         color="teal-10"/>
     </q-form>
   </div>
@@ -97,8 +97,8 @@ export default {
       DATA_SENSOR: null,
       // ID_TANAMAN: null,
       // NAMA_ALAT: null,
-      SUHU_MINIMAL: null,
-      SUHU_MAX: null,
+      TGL_PANEN: null,
+      // TGL_GANTI_WARNA: null,
       optionTanaman: [],
       optionAlat: [],
       tanaman: null,
@@ -113,11 +113,11 @@ export default {
         ID_ALAT: this.alat.GUID,
         MAC_ADDRESS: this.alat.MAC_ADDRESS,
         ID_USER: this.$q.localStorage.getItem('dataUser').user.GUID,
-        SUHU_MINIMAL: this.SUHU_MINIMAL,
-        SUHU_MAX: this.SUHU_MAX
+        // TGL_GANTI_WARNA: this.TGL_GANTI_WARNA,
+        TGL_PANEN: this.TGL_PANEN
       }
       console.log(payload)
-      api.post('tanam/create', payload, createToken()
+      api.post('cahaya/create', payload, createToken()
       )
       // END PAYLOAD GANTI
       // api.post('tanam/create', {
@@ -131,7 +131,7 @@ export default {
         .then((res) => {
           console.log(res)
           if (res.data.status === true) {
-            this.$router.push('/setTanaman')
+            this.$router.push('/setCahaya')
             this.$q.notify({
               message: res.data.message,
               color: 'teal-10',

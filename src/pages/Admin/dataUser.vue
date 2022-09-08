@@ -9,7 +9,7 @@
           <div class="col" style="max-width: fit-content">
             <q-banner rounded inline-actions class="text-white bg-teal-10">
               <div class="text-h6">Data User</div>
-              <div>Data User Green House</div>
+              <div>detail data user greenhouse</div>
             </q-banner>
           </div>
         </div>
@@ -20,7 +20,15 @@
         :rows="data"
         :columns="columns"
         row-key="name"
+        :filter="filter"
       >
+      <template v-slot:top>
+        <q-input color="teal-10" v-model="filter" placeholder="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="USERNAME" :props="props">
@@ -84,11 +92,11 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        { name: 'EMAIL', align: 'center', label: 'Email', field: 'EMAIL', sortable: true },
-        { name: 'ALAMAT', align: 'center', label: 'Alamat', field: 'ALAMAT', sortable: true },
         { name: 'NAMA_GREENHOUSE', align: 'center', label: 'Nama Greenhouse', field: 'NAMA_GREENHOUSE', sortable: true },
-        { name: 'NO_TELPON', align: 'center', label: 'No Telpon', field: 'NO_TELPON', sortable: true },
-        { name: 'action', label: 'Action', field: 'action', sortable: true }
+        { name: 'ALAMAT', align: 'center', label: 'Alamat', field: 'ALAMAT', sortable: true },
+        { name: 'EMAIL', align: 'center', label: 'Email', field: 'EMAIL', sortable: true },
+        { name: 'NO_TELPON', align: 'center', label: 'No Telpon', field: 'NO_TELPON', sortable: true }
+        // { name: 'action', label: 'Action', field: 'action', sortable: true }
       ],
       data: []
     }
@@ -100,11 +108,12 @@ export default {
     dataUser () {
       api.get('/users/get-role-user', createToken())
         .then((res) => {
+          // console.log(res)
           this.data = res.data.data
         })
     },
     hapusUser (GUID) {
-      api.delete('users/delete' + GUID, createToken())
+      api.delete('users/delete' + GUID)
         .then((res) => {
           console.log(res)
           if (res.data.status === true) {
@@ -114,7 +123,6 @@ export default {
               icon: 'ion-close'
             })
           }
-          this.dataUser()
         })
     }
     // edit (GUID) {

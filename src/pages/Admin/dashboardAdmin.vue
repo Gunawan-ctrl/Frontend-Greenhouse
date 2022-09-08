@@ -104,6 +104,7 @@
     </q-card>
     </div>
     <div>
+      <!-- * Halaman Chart  -->
     <!-- <div class="row q-col-gutter-sm q-ml-md q-mr-lg">
       <div class="flex-center">
         <div class="chart">
@@ -117,6 +118,7 @@
     <!-- <div class="col-xl-4 col-lg-6 col-md-6 col-sm-10 col-xs-12 q-pa-sm">
       <line-chart></line-chart>
     </div> -->
+    <!-- * Halaman Chart -->
   </div>
   </q-page>
 </template>
@@ -175,11 +177,11 @@ export default defineComponent({
         }
       })
       client.subscribe('sensorsoil', function (err) {
-        if (!err) {
+        if (err) {
           // console.log(err)
         }
       })
-      client.subscribe('ketinggianair', function (err) {
+      client.subscribe('ketir', function (err) {
         if (!err) {
           // console.log(err)
         }
@@ -192,6 +194,7 @@ export default defineComponent({
   },
   methods: {
     getMessages: function () {
+      // console.log('woi')
       // eslint-disable-next-line no-var
       var parseSensor = (data) => {
         // console.log(data)
@@ -201,6 +204,7 @@ export default defineComponent({
         }
         if (data.LAMPU !== undefined) {
           this.lampu = data.LAMPU
+          // console.log(this.lampu)
           this.lampuKet = data.KET
         }
         if (data.PH !== undefined) {
@@ -220,6 +224,7 @@ export default defineComponent({
       }
       client.on('message', function (topic, message) {
         const msg = JSON.parse(message.toString())
+        console.log(msg)
         parseSensor(msg)
         // console.log(msg)
       })

@@ -7,7 +7,7 @@
         </div>
         <div class="col" style="max-width: fit-content">
           <q-banner rounded inline-actions class="bg-teal-10 text-white">
-          <div class="text-h6">Data Tanaman</div>
+          <div class="text-h6">Data Set Tanaman</div>
           <div>detail data tanamanan greenhouse</div>
           </q-banner>
         </div>
@@ -25,7 +25,7 @@
     :loading="loading"
   >
     <template v-slot:top>
-      <q-btn color="teal-10" :disable="loading" label="Tambah Set Tanaman" :to="{name:'inputsetTanaman'}" />
+      <q-btn color="teal-10" :disable="loading" label="Tambah Set Tanaman Suhu" :to="{name:'inputsetTanaman'}" />
       <q-space />
       <q-input color="teal-10" v-model="filter" placeholder="Search">
         <template v-slot:append>
@@ -37,15 +37,17 @@
       <q-tr :props="props">
         <q-td key="NAMA_TANAMAN" :props="props">{{ props.row.data_tanaman.NAMA_TANAMAN }}</q-td>
         <q-td key="DATA_SENSOR" :props="props">{{ props.row.data_alat.DATA_SENSOR }}</q-td>
+        <!-- <q-td key="ID_TANAMAN" :props="props">{{ props.row.ID_TANAMAN }}</q-td>
+        <q-td key="ID_ALAT" :props="props">{{ props.row.ID_ALAT }}</q-td> -->
         <q-td key="SUHU_MINIMAL" :props="props">{{ props.row.SUHU_MINIMAL }}</q-td>
         <q-td key="SUHU_MAX" :props="props">{{ props.row.SUHU_MAX }}</q-td>
-        <q-td key="SET" :props="props">{{ props.row.SET}}
+        <!-- <q-td key="SET" :props="props">{{ props.row.SET}}
           <div class="justify-center q-gutter-x-xs">
             <q-td auto-width>
             <q-toggle v-model="props.row.SET" checked-icon="add" unchecked-icon="remove" />
           </q-td>
           </div>
-        </q-td>
+        </q-td> -->
         <q-td key="action" :props="props">
           <div class="justify-center q-gutter-x-xs">
             <q-btn
@@ -87,10 +89,21 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
+        // {
+        //   name: 'ID_TANAMAN',
+        //   required: true,
+        //   label: 'Nama Tanaman',
+        //   align: 'left',
+        //   field: row => row.ID_TANAMAN,
+        //   format: val => `${val}`,
+        //   sortable: true
+        // },
         { name: 'DATA_SENSOR', align: 'left', label: 'Sensor', field: 'DATA_SENSOR', sortable: true },
+        // { name: 'ID_TANAMAN', align: 'left', label: 'NAMA TANAMAN', field: 'ID_ALAT', sortable: true },
+        // { name: 'ID_ALAT', align: 'left', label: 'DATA SENSOR', field: 'ID_ALAT', sortable: true },
         { name: 'SUHU_MINIMAL', align: 'left', label: 'Suhu Minimal', field: 'SUHU_MINIMAL', sortable: true },
         { name: 'SUHU_MAX', align: 'left', label: 'Suhu Maksimal', field: 'SUHU_MAX' },
-        { name: 'SET', align: 'center', label: 'SET', field: 'SET', sortable: true },
+        // { name: 'SET', align: 'center', label: 'SET', field: 'SET', sortable: true },
         { name: 'action', align: 'center', label: 'Action', field: 'action', sortable: true }
       ],
       data: []
@@ -101,10 +114,13 @@ export default {
   },
   methods: {
     datasetTanaman () {
-      api.get('/tanam', createToken())
+      api.get('/tanam/getByIdUser/' + this.$q.localStorage.getItem('dataUser').user.GUID, createToken())
+      // api.get('/tanam/', createToken())
         .then((res) => {
+          console.log(res)
           this.data = res.data.data
           // console.log(this.data)
+          // console.log(res.data.data.GUID)
         })
     },
     hapussetTanaman (GUID) {

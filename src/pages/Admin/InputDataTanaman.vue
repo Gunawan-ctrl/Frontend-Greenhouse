@@ -8,7 +8,7 @@
           <div class="col" style="max-width: fit-content;">
             <q-banner rounded inline-actions class="text-white bg-teal-10">
               <div class="text-h6">Input Tanaman</div>
-              <div>Input Tanaman Green House</div>
+              <div>input tanaman greenhouse</div>
             </q-banner>
           </div>
         </div>
@@ -55,7 +55,6 @@
       />
       <q-input
         filled
-        type="number"
         v-model="LUAS_AREA_TANAM"
         label="Luas Area Tanam"
         :rules="[ val => val && val.length > 0 || 'silahkan masukkan luas area tanaman anda']"
@@ -65,7 +64,7 @@
             unelevated
             icon="add"
             label="Tambah Tanaman"
-            color="teal-10" type="submit" :disable="loading" />
+            color="teal-10" type="submit" />
 
           <q-btn
             flat
@@ -87,6 +86,7 @@ export default {
       NAMA_TANAMAN: null,
       JENIS_TANAMAN: null,
       HARGA: 0,
+      // ID_USER: null,
       DESKRIPSI: null,
       LUAS_AREA_TANAM: null,
       optionJenisTanaman:
@@ -100,14 +100,19 @@ export default {
   },
   methods: {
     onSubmit () {
-      api.post('/tanaman/create', {
+      api.post('/tanaman/create/', {
+      // api.post('/tanaman/create/', {
         NAMA_TANAMAN: this.NAMA_TANAMAN,
+        // ID_TANAMAN: this.GUID,
         JENIS_TANAMAN: this.JENIS_TANAMAN,
         HARGA: this.HARGA,
+        ID_USER: this.$q.localStorage.getItem('dataUser').user.GUID,
         DESKRIPSI: this.DESKRIPSI,
         LUAS_AREA_TANAM: this.LUAS_AREA_TANAM
       }, createToken()).then((res) => {
+        console.log(res)
         if (res.data.status === true) {
+          // this.$q.localStorage.set('dataUser', res.data.data)
           this.$router.push('/dataTanaman')
           this.$q.notify({
             message: res.data.message,
