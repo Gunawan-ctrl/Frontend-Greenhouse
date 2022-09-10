@@ -38,7 +38,7 @@
         <q-td key="NAMA_TANAMAN" :props="props">{{ props.row.data_tanaman.NAMA_TANAMAN }}</q-td>
         <q-td key="DATA_SENSOR" :props="props">{{ props.row.data_alat.DATA_SENSOR }}</q-td>
         <q-td key="TGL_GANTI_WARNA" :props="props">{{ props.row.TGL_GANTI_WARNA }}</q-td>
-        <q-td key="TGL_PANEN" :props="props">{{ props.row.TGL_PANEN }}</q-td>
+        <q-td key="TGL_PANEN" :props="props">{{ new Date(props.row.TGL_PANEN).toLocaleDateString('en-US',{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) }}</q-td>
         <!-- * Start Toogle Data Set Cahaya -->
         <!-- <q-td key="SET" :props="props">{{ props.row.SET}}
           <div class="justify-center q-gutter-x-xs">
@@ -72,6 +72,8 @@
 <script>
 import { api } from 'src/boot/axios'
 import createToken from 'src/helpers/create_token'
+import { date } from 'quasar'
+// import moment from 'moment'
 export default {
   data () {
     return {
@@ -119,6 +121,7 @@ export default {
       // api.get('/tanam/', createToken())
         .then((res) => {
           console.log(res)
+          console.log(date.formatDate(res.data.data.TGL_PANEN, 'YYYY-MM-DD'))
           this.data = res.data.data
           // console.log(this.data)
           // console.log(res.data.data.GUID)

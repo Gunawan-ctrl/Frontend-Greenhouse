@@ -116,7 +116,7 @@ export default {
         // TGL_GANTI_WARNA: this.TGL_GANTI_WARNA,
         TGL_PANEN: this.TGL_PANEN
       }
-      console.log(payload)
+      // console.log(payload)
       api.post('cahaya/create', payload, createToken()
       )
       // END PAYLOAD GANTI

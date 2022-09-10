@@ -17,6 +17,7 @@
     "chart.js": "^3.8.2",
     "chartkick": "^4.2.0",
     "core-js": "^3.6.5",
+    "moment": "^2.29.4",
     "mqtt": "^4.3.7",
     "net": "^1.0.2",
     "node-polyfill-webpack-plugin": "^2.0.0",
