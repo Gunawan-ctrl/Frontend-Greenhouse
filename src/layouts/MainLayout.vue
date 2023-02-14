@@ -159,7 +159,7 @@ export default {
 </script>
 <style scoped>
 .active {
-  color: black;
+  color: teal;
   background-color: #fff;
   padding-right: 10px;
 }

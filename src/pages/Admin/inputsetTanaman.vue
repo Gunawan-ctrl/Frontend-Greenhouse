@@ -49,8 +49,6 @@
         <q-item v-bind="scope.itemProps">
           <q-item-section>
             <q-item-label>{{ scope.opt.DATA_SENSOR }}</q-item-label>
-            <!-- <q-item-label>{{ scope.opt.NAMA_ALAT }}</q-item-label> -->
-            <!-- <q-item-label caption>{{ scope.opt.MAC_ADDRESS }}</q-item-label> -->
           </q-item-section>
         </q-item>
       </template>
@@ -117,7 +115,7 @@ export default {
         SUHU_MAX: this.SUHU_MAX
       }
       console.log(payload)
-      api.post('tanam/create', payload, createToken()
+      api.post('http://localhost:5052/tanam/create', payload, createToken()
       )
       // END PAYLOAD GANTI
       // api.post('tanam/create', {

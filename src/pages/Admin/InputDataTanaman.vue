@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     onSubmit () {
-      api.post('/tanaman/create/', {
+      api.post('http://localhost:5050/tanaman/create/', {
       // api.post('/tanaman/create/', {
         NAMA_TANAMAN: this.NAMA_TANAMAN,
         // ID_TANAMAN: this.GUID,

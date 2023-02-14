@@ -104,33 +104,14 @@
     </q-card>
     </div>
     <div>
-      <!-- * Halaman Chart  -->
-    <!-- <div class="row q-col-gutter-sm q-ml-md q-mr-lg">
-      <div class="flex-center">
-        <div class="chart">
-          <line-chart :styles="myStyles"/>
-          <canvas id="chart"></canvas>
-          <chart :chartData="data" :options="options" :width="8" :height="3"></chart>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <div class="col-xl-4 col-lg-6 col-md-6 col-sm-10 col-xs-12 q-pa-sm">
-      <line-chart></line-chart>
-    </div> -->
-    <!-- * Halaman Chart -->
   </div>
   </q-page>
 </template>
 <script>
 
-// import { defineAsyncComponent, defineComponent } from 'vue'
 import { defineComponent } from 'vue'
 import mqttjs from 'mqtt'
 let client = null
-// const ApexLine = defineAsyncComponent(() =>
-//   import('components/charts/ApexLine.vue')
-// )
 export default defineComponent({
   name: 'pageIndex',
   components: {
@@ -166,6 +147,7 @@ export default defineComponent({
 
     client = mqttjs.connect('ws://rmq2.pptik.id:15675/ws', options)
     client.on('connect', function () {
+      console.log('connected')
       client.subscribe('sensorsuhu', function (err) {
         if (!err) {
           // console.log(err)
@@ -194,17 +176,14 @@ export default defineComponent({
   },
   methods: {
     getMessages: function () {
-      // console.log('woi')
-      // eslint-disable-next-line no-var
-      var parseSensor = (data) => {
-        // console.log(data)
+      const parseSensor = (data) => {
+        console.log(data)
         if (data.ADC !== undefined) {
           this.suhu = data.ADC
           this.suhuKet = data.KET
         }
         if (data.LAMPU !== undefined) {
           this.lampu = data.LAMPU
-          // console.log(this.lampu)
           this.lampuKet = data.KET
         }
         if (data.PH !== undefined) {
@@ -215,18 +194,11 @@ export default defineComponent({
           this.ketinggianair = data.cm
           this.ketinggianairKet = data.KET
         }
-        // this.datas.push(Number(data.ADC))
-        // console.log(this.createChart('line-chart'))
-        // console.log(this.suhu)
-        // console.log(this.lampu)
-        // console.log(this.soil)
-        // console.log(this.ketinggianair)
       }
       client.on('message', function (topic, message) {
         const msg = JSON.parse(message.toString())
         console.log(msg)
         parseSensor(msg)
-        // console.log(msg)
       })
     }
   }

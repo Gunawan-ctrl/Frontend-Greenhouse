@@ -1,16 +1,15 @@
 <template>
   <q-page padding>
-    <div class="row q-mb-md col-gutter-md">
+    <div class="row q-mb-sm col-gutter-md">
       <div class="col-md-12 col-xs-12 col-lg-12">
         <div class="row">
-        <div class="col-auto">
-        </div>
-        <div class="col" style="max-width: fit-content">
-          <q-banner rounded inline-actions class="bg-teal-10 text-white">
-          <div class="text-h6">Data Tanaman</div>
-          <div>detail data tanamanan greenhouse</div>
-          </q-banner>
-        </div>
+          <div class="col-auto"></div>
+            <div class="col" style="max-width: fit-content;">
+              <q-banner rounded inline-actions class="text-white bg-teal-10">
+                <div class="text-h6">Data Tanaman</div>
+                <div>edit alat greenhouse</div>
+              </q-banner>
+            </div>
         </div>
       </div>
     </div>
@@ -103,13 +102,10 @@ export default {
   },
   methods: {
     dataTanaman () {
-      api.get('/tanaman/getbyIdUser/' + this.$q.localStorage.getItem('dataUser').user.GUID, createToken())
-      // api.get('/tanaman/', createToken())
+      api.get('http://localhost:5050/tanaman/getbyIdUser/' + this.$q.localStorage.getItem('dataUser').user.GUID, createToken())
         .then((res) => {
           console.log(res)
           this.data = res.data.data
-          // console.log(this.data)
-          // console.log(res.data.data.GUID)
         })
     },
     hapusTanaman (GUID) {

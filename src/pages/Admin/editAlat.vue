@@ -3,14 +3,13 @@
     <div class="row q-mb-sm col-gutter-md">
       <div class="col-md-12 col-xs-12 col-lg-12">
         <div class="row">
-          <div class="col-auto">
-          </div>
-          <div class="col" style="max-width: fit-content;">
-            <q-banner rounded inline-actions class="text-white bg-teal-10">
-              <div class="text-h6">Edit Alat</div>
-              <div>edit alat greenhouse</div>
-            </q-banner>
-          </div>
+          <div class="col-auto"></div>
+            <div class="col" style="max-width: fit-content;">
+              <q-banner rounded inline-actions class="text-white bg-teal-10">
+                <div class="text-h6">Edit Alat</div>
+                <div>edit alat greenhouse</div>
+              </q-banner>
+            </div>
         </div>
       </div>
     </div>

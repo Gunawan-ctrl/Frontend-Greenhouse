@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     onSubmit () {
-      api.post('/users/login', {
+      api.post('http://localhost:5052/users/login', {
         EMAIL: this.form.EMAIL,
         PASSWORD: this.form.PASSWORD
       })

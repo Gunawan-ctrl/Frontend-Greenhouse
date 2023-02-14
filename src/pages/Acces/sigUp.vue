@@ -150,7 +150,7 @@ export default {
         PASSWORD: this.PASSWORD,
         ROLE: '1'
       }).then((res) => {
-        // console.log(res)
+        console.log(res)
         if (res.data.status) {
           this.$q.notify({ color: 'teal-10', message: res.data.message, icon: 'ion-checkmark' })
           this.$router.push('/login')
